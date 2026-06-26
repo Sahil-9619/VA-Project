@@ -4,6 +4,7 @@ import { StoreProvider } from "@/lib/provider/StoreProvider";
 import { Toaster } from "sonner";
 import AuthProvider from "../hooks/authProvider";
 import { AppInitializer } from "../hooks/app-setting";
+import { ThemeProvider } from "@/components/theme-provider";
 import { TranslationProvider } from "../contexts/TranslationContext";
 
 const geistSans = Geist({
@@ -27,13 +28,20 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <StoreProvider>
-          <AppInitializer>
-            <AuthProvider><TranslationProvider>{children}</TranslationProvider></AuthProvider>
-          </AppInitializer>
-          <Toaster />
-          <Toaster richColors />
-        </StoreProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <StoreProvider>
+            <AppInitializer>
+              <AuthProvider><TranslationProvider>{children}</TranslationProvider></AuthProvider>
+            </AppInitializer>
+            <Toaster />
+            <Toaster richColors />
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

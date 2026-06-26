@@ -1,6 +1,8 @@
 
 import { Geist, Geist_Mono, Edu_NSW_ACT_Foundation } from "next/font/google";
 import AdminSidebar from "../components/adminSidebar";
+import AdminTopbar from "../components/adminTopbar";
+import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,21 +21,24 @@ const eduCursive = Edu_NSW_ACT_Foundation({
 });
 
 export const metadata = {
-  title: "User Dashboard",
-  description: "Dashboard section for users",
+  title: "Admin Dashboard",
+  description: "Dashboard section for admins",
 };
 
 export default function AdminDashboardLayout({ children }) {
   return (
     <div
-      className={`h-screen overflow-hidden ${geistSans.variable} ${geistMono.variable} ${eduCursive.variable}`}
+      className={`h-screen overflow-hidden admin-pattern-bg ${geistSans.variable} ${geistMono.variable} ${eduCursive.variable}`}
     >
       <main className="flex h-full">
         {/* Sidebar stays fixed height */}
         <AdminSidebar />
 
-        {/* Right content gets its own scroll */}
-        <div className="flex-1 p-6 overflow-y-auto">{children}</div>
+        {/* Main content area */}
+        <div className="flex-1 flex flex-col min-w-0 relative">
+          <AdminTopbar />
+          <CustomScrollbar className="flex-1 px-4 py-2">{children}</CustomScrollbar>
+        </div>
       </main>
     </div>
   );

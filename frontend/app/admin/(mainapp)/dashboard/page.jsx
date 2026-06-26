@@ -50,8 +50,8 @@ const AdminDashboard = () => {
 
   if (!dashboardData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#178F9E]"></div>
       </div>
     );
   }
@@ -94,167 +94,160 @@ const AdminDashboard = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="container mx-auto p-6 space-y-8 max-w-7xl">
+    <div className="min-h-screen bg-transparent">
+      <div className="container mx-auto space-y-6 max-w-7xl pt-2 pb-8 px-2 md:px-0">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        <div className="text-left mb-6">
+          <h1 className="text-2xl font-bold text-admin-text mb-1">
             Admin Dashboard
           </h1>
-          <p className="text-gray-600">Platform-wide metrics and insights</p>
+          <p className="text-admin-text/60 text-xs">Platform-wide metrics and insights</p>
         </div>
 
-        {/* Top Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium opacity-90">
-                  Total Classes
-                </CardTitle>
-                <BookOpen className="h-8 w-8 opacity-80" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold mb-1">
-                {totals?.classes ?? 0}
-              </div>
+        {/* Top Summary Cards (Compact Rectangular with Geometric Patterns) */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
 
-            </CardContent>
-            <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-white opacity-10 rounded-full"></div>
-          </Card>
+          {/* Card 1: Total Classes */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors duration-500"></div>
+            <div className="absolute top-4 -right-4 w-12 h-12 rounded-full bg-indigo-500/10 group-hover:bg-indigo-500/20 transition-colors duration-500"></div>
 
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium opacity-90">Users</CardTitle>
-                <Users className="h-8 w-8 opacity-80" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold mb-1">
-                {totals?.users ?? 0}
-              </div>
-              <p className="text-emerald-100 text-sm">Students: {totals?.students ?? 0} • Instructors: {totals?.instructors ?? 0}</p>
-            </CardContent>
-            <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-white opacity-10 rounded-full"></div>
-          </Card>
-
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-r from-orange-500 to-red-500 text-white">
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium opacity-90">Gross Revenue</CardTitle>
-
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold mb-1">
-                ₹{(revenue?.grossRevenue || 0).toFixed(2)}
-              </div>
-              <p className="text-orange-100 text-sm">Profit: ₹{(revenue?.platformProfit || 0).toFixed(2)} • Payout: ₹{(revenue?.netPayoutToInstructors || 0).toFixed(2)}</p>
-            </CardContent>
-            <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-white opacity-10 rounded-full"></div>
-          </Card>
-        </div>
-
-        {/* 💰 Student Fee Revenue Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          {/* Expected Revenue */}
-          <Card className="shadow-lg bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm text-gray-500">Expected Revenue</p>
-              <h2 className="text-2xl font-bold text-indigo-600">
-                ₹{revenue?.totalExpectedRevenue || 0}
-              </h2>
-            </CardContent>
-          </Card>
-
-          {/* Collected Revenue */}
-          <Card className="shadow-lg bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm text-gray-500">Collected Revenue</p>
-              <h2 className="text-2xl font-bold text-green-600">
-                ₹{revenue?.totalCollectedRevenue || 0}
-              </h2>
-            </CardContent>
-          </Card>
-
-          {/* Pending Revenue */}
-          <Card className="shadow-lg bg-white">
-            <CardContent className="p-4">
-              <p className="text-sm text-gray-500">Pending Revenue</p>
-              <h2 className="text-2xl font-bold text-red-600">
-                ₹{revenue?.totalPendingRevenue || 0}
-              </h2>
-            </CardContent>
-          </Card>
-
-        </div>
-
-        {/* Enrollments and Top performers */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-white">
-            <CardHeader className="pb-2 border-b border-gray-100">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium text-gray-800">Total Enrollments</CardTitle>
-                <Award className="h-6 w-6 text-indigo-600" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-gray-900">{totals?.students ?? 0}</div>
-              <p className="text-gray-500 text-sm">Active: {totals?.activeEnrollments ?? 0}</p>
-            </CardContent>
-          </Card>
-
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-white">
-            <CardHeader className="pb-2 border-b border-gray-100">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium text-gray-800">Top Course (Gross)</CardTitle>
-                <TrendingUp className="h-6 w-6 text-purple-600" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              {dashboardData.topCoursesByRevenue && dashboardData.topCoursesByRevenue[0] ? (
-                <div>
-                  <div className="font-semibold text-gray-900">{dashboardData.topCoursesByRevenue[0].title}</div>
-                  <p className="text-sm text-gray-500">Enrollments: {dashboardData.topCoursesByRevenue[0].enrollments}</p>
-                  <p className="text-sm text-gray-500">Gross: ${(dashboardData.topCoursesByRevenue[0].gross || 0).toFixed(2)}</p>
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <BookOpen className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Classes</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.classes ?? 0}</span>
+                    <TrendingUp className="w-4 h-4 text-blue-400" />
+                  </div>
                 </div>
-              ) : (
-                <p className="text-gray-500 text-sm">No data</p>
-              )}
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="relative overflow-hidden border-0 shadow-lg bg-white">
-            <CardHeader className="pb-2 border-b border-gray-100">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium text-gray-800">Top Instructor (Gross)</CardTitle>
-                <TrendingUp className="h-6 w-6 text-teal-600" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              {dashboardData.topInstructorsByRevenue && dashboardData.topInstructorsByRevenue[0] ? (
-                <div>
-                  <div className="font-semibold text-gray-900">{dashboardData.topInstructorsByRevenue[0].name}</div>
-                  <p className="text-sm text-gray-500">Enrollments: {dashboardData.topInstructorsByRevenue[0].enrollments}</p>
-                  <p className="text-sm text-gray-500">Gross: ${(dashboardData.topInstructorsByRevenue[0].gross || 0).toFixed(2)}</p>
+          {/* Card 2: Total Users */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-4 -top-4 w-20 h-20 bg-amber-500/10 group-hover:bg-amber-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <Users className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Users</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.users ?? 0}</span>
+                    <Users className="w-4 h-4 text-amber-400" />
+                  </div>
                 </div>
-              ) : (
-                <p className="text-gray-500 text-sm">No data</p>
-              )}
+              </div>
             </CardContent>
           </Card>
+
+          {/* Card 3: Gross Revenue */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors duration-500 transform rotate-45"></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <DollarSign className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Gross Rev</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.grossRevenue || 0)}</span>
+                    <div className="text-[10px] text-emerald-400 font-medium border border-emerald-400/20 rounded px-1.5 bg-emerald-400/10">+</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Card 4: Expected Rev */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-2 top-0 w-20 h-20 bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <CreditCard className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Expected</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalExpectedRevenue || 0)}</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Card 5: Collected Rev */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-6 -top-6 w-20 h-20 border-[8px] border-cyan-500/10 rounded-full group-hover:border-cyan-500/20 transition-colors duration-500"></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <DollarSign className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Collected</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalCollectedRevenue || 0)}</span>
+                    <BookOpen className="w-4 h-4 text-cyan-400" />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Card 6: Pending Rev */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 rounded-2xl bg-rose-500/10 group-hover:bg-rose-500/20 transition-colors duration-500 transform rotate-12"></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <Calendar className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Pending</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalPendingRevenue || 0)}</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Card 7: Total Enrollments */}
+          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
+            <div className="card-line-pattern"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 bg-fuchsia-500/10 group-hover:bg-fuchsia-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}></div>
+
+            <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
+              <div className="flex items-center space-x-3">
+                <Award className="h-6 w-6 text-admin-text/60" />
+                <div className="flex flex-col">
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Enrollments</h3>
+                  <div className="flex items-baseline space-x-2">
+                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.students ?? 0}</span>
+                    <div className="text-[10px] text-fuchsia-400 font-medium">Act: {totals?.activeEnrollments ?? 0}</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
         </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-            <CardHeader className="border-b border-gray-100">
+          <Card className="border border-admin-border dark:border-transparent shadow-lg bg-admin-card/60 backdrop-blur-md">
+            <CardHeader className="border-b border-admin-border">
               <div className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5 text-indigo-600" />
-                <CardTitle className="text-xl text-gray-800">
+                <TrendingUp className="h-5 w-5 text-admin-primary" />
+                <CardTitle className="text-xl text-admin-text">
                   Monthly Revenue
                 </CardTitle>
               </div>
@@ -262,23 +255,23 @@ const AdminDashboard = () => {
             <CardContent className="pt-6">
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#64748b" }} axisLine={{ stroke: "#e2e8f0" }} />
-                  <YAxis tick={{ fontSize: 12, fill: "#64748b" }} axisLine={{ stroke: "#e2e8f0" }} />
-                  <Tooltip contentStyle={{ backgroundColor: "white", border: "none", borderRadius: "8px", boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }} />
-                  <Line type="monotone" dataKey="expected" stroke="#6366f1" strokeWidth={2} name="Expected" />
-                  <Line type="monotone" dataKey="collected" stroke="#10b981" strokeWidth={2} name="Collected" />
-                  <Line type="monotone" dataKey="pending" stroke="#ef4444" strokeWidth={2} name="Pending" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--admin-border)" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
+                  <YAxis tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
+                  <Tooltip contentStyle={{ backgroundColor: "var(--admin-card)", borderColor: "var(--admin-border)", borderRadius: "8px", color: "var(--admin-text)" }} />
+                  <Line type="monotone" dataKey="expected" stroke="#818cf8" strokeWidth={2} name="Expected" />
+                  <Line type="monotone" dataKey="collected" stroke="#34d399" strokeWidth={2} name="Collected" />
+                  <Line type="monotone" dataKey="pending" stroke="#f87171" strokeWidth={2} name="Pending" />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-            <CardHeader className="border-b border-gray-100">
+          <Card className="border border-admin-border shadow-lg bg-admin-card/60 backdrop-blur-md">
+            <CardHeader className="border-b border-admin-border">
               <div className="flex items-center space-x-2">
-                <Award className="h-5 w-5 text-purple-600" />
-                <CardTitle className="text-xl text-gray-800">
+                <Award className="h-5 w-5 text-purple-400" />
+                <CardTitle className="text-xl text-admin-text">
                   Enrollments per Class
                 </CardTitle>
               </div>
@@ -303,10 +296,10 @@ const AdminDashboard = () => {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "white",
-                      border: "none",
+                      backgroundColor: "var(--admin-card)",
+                      borderColor: "var(--admin-border)",
                       borderRadius: "8px",
-                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                      color: "var(--admin-text)"
                     }}
                   />
                 </PieChart>
@@ -315,69 +308,14 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
-        {/* Course Completion Chart */}
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-          <CardHeader className="border-b border-gray-100">
-            <div className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5 text-teal-600" />
-              <CardTitle className="text-xl text-gray-800">
-                Course Completion Rate
-              </CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart
-                data={completionBarData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 5 }}
-              >
-                <defs>
-                  <linearGradient
-                    id="completionGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.3} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 12, fill: "#64748b" }}
-                  axisLine={{ stroke: "#e2e8f0" }}
-                />
-                <YAxis
-                  unit="%"
-                  tick={{ fontSize: 12, fill: "#64748b" }}
-                  axisLine={{ stroke: "#e2e8f0" }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "none",
-                    borderRadius: "8px",
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-                  }}
-                />
-                <Bar
-                  dataKey="completion"
-                  fill="url(#completionGradient)"
-                  radius={[4, 4, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+
 
         {/* Recent Enrollments */}
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
-          <CardHeader className="border-b border-gray-100">
+        <Card className="border border-admin-border dark:border-transparent shadow-lg bg-admin-card/60 backdrop-blur-md">
+          <CardHeader className="border-b border-admin-border">
             <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-emerald-600" />
-              <CardTitle className="text-xl text-gray-800">
+              <Calendar className="h-5 w-5 text-emerald-400" />
+              <CardTitle className="text-xl text-admin-text">
                 Recent Enrollments
               </CardTitle>
             </div>
@@ -387,28 +325,28 @@ const AdminDashboard = () => {
               {(dashboardData.recentEnrollments || []).map((enrollment) => (
                 <div
                   key={enrollment._id}
-                  className="flex items-center justify-between p-4 rounded-lg border border-gray-100 bg-gradient-to-r from-white to-gray-50/50 hover:shadow-md transition-all duration-200"
+                  className="flex items-center justify-between p-4 rounded-lg border border-admin-border bg-admin-card/40 hover:bg-admin-card/70 transition-all duration-200"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="relative">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 overflow-hidden flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-admin-primary to-[#147a87] overflow-hidden flex items-center justify-center shadow-lg">
                         {enrollment.user?.profileImage ? (
                           <img src={enrollment.user?.profileImage} alt={enrollment.user?.name || "User"} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-white font-semibold text-lg">
+                          <span className="text-admin-text font-semibold text-lg">
                             {enrollment.user?.name?.[0]?.toUpperCase() || "U"}
                           </span>
                         )}
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-admin-bg"></div>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">{enrollment.user?.name || "Unknown User"}</p>
-                      <p className="text-sm text-indigo-600 font-medium">{enrollment.course?.title || "Unknown Course"}</p>
+                      <p className="font-semibold text-admin-text">{enrollment.user?.name || "Unknown User"}</p>
+                      <p className="text-sm text-admin-primary font-medium">{enrollment.course?.title || "Unknown Course"}</p>
                       <div className="flex items-center space-x-2 mt-1">
-                        <CreditCard className="h-3 w-3 text-gray-400" />
-                        <p className="text-xs text-gray-500">
-                          {enrollment.payment?.paymentMethod || "N/A"} • $
+                        <CreditCard className="h-3 w-3 text-admin-text/40" />
+                        <p className="text-xs text-admin-text/60">
+                          {enrollment.payment?.paymentMethod || "N/A"} • ₹
                           {Number(enrollment.payment?.amount || 0).toFixed(2)}
                         </p>
                       </div>
@@ -416,10 +354,10 @@ const AdminDashboard = () => {
                   </div>
                   <div className="text-right">
                     <div className="w-32 mb-2">
-                      <Progress value={enrollment.progress?.completionPercentage || 0} className="h-2" />
+                      <Progress value={enrollment.progress?.completionPercentage || 0} className="h-2 bg-admin-border" indicatorclassName="bg-admin-primary" />
                     </div>
                     <div className="flex items-center justify-end space-x-2">
-                      <span className="text-sm font-semibold text-gray-700">{enrollment.progress?.completionPercentage || 0}%</span>
+                      <span className="text-sm font-semibold text-admin-text/80">{enrollment.progress?.completionPercentage || 0}%</span>
                       <Badge
                         variant={
                           (enrollment.progress?.completionPercentage || 0) > 75
