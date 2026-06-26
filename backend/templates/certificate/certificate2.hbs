@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate of Completion</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap");
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f3f3f3;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .certificate {
+        width: 1123px; /* A4 landscape width */
+        height: 794px; /* A4 landscape height */
+        margin: 30px auto;
+        background: #fff;
+        border: 16px double #c9a14a;
+        border-radius: 20px;
+        position: relative;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
+
+      .certificate::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 250, 230, 0.3),
+          transparent 70%
+        );
+      }
+
+      .inner-border {
+        position: absolute;
+        inset: 30px;
+        border: 3px solid rgba(201, 161, 74, 0.5);
+        border-radius: 10px;
+      }
+
+      .content {
+        position: relative;
+        text-align: center;
+        padding: 100px 80px 140px;
+        z-index: 2;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 64px;
+        color: #c09c3f;
+        margin: 0;
+        letter-spacing: 2px;
+      }
+
+      h2 {
+        font-size: 22px;
+        color: #555;
+        margin: 15px 0 40px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      .recipient {
+        font-family: "Playfair Display", serif;
+        font-size: 40px;
+        color: #111;
+        margin: 25px 0;
+        font-weight: 600;
+        border-bottom: 2px solid #c9a14a;
+        display: inline-block;
+        padding: 8px 40px;
+      }
+
+      .details {
+        font-size: 20px;
+        color: #333;
+        line-height: 1.8;
+        margin-top: 30px;
+      }
+
+      .details strong {
+        color: #c09c3f;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 60px;
+        width: calc(100% - 160px);
+        left: 80px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        color: #444;
+      }
+
+      .signature-block {
+        text-align: center;
+        width: 250px;
+      }
+
+      .signature-line {
+        border-top: 2px solid #000;
+        margin-top: 10px;
+        padding-top: 5px;
+        font-weight: 500;
+      }
+
+      .seal {
+        position: absolute;
+        top: 70px;
+        right: 80px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #d4af37, #b48b23);
+        color: #fff;
+        font-size: 28px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .seal::after {
+        content: "Certified";
+        position: absolute;
+        bottom: -22px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #b48b23;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="certificate">
+      <div class="inner-border"></div>
+
+      <div class="content">
+        <h1>Certificate of Completion</h1>
+        <h2>This is to proudly certify that</h2>
+
+        <div class="recipient">{{studentName}}</div>
+
+        <p class="details">
+          has successfully completed the course
+          <strong>{{courseName}}</strong><br />
+          demonstrating outstanding dedication and achievement.<br />
+          Completed on <strong>{{completionDate}}</strong>.
+        </p>
+      </div>
+
+      <div class="footer">
+        <div class="signature-block">
+          <div>Instructor</div>
+          <div class="signature-line">{{instructorName}}</div>
+        </div>
+        <div class="signature-block">
+          <div>Authorized Signatory</div>
+          <div class="signature-line">{{authorizedSignatory}}</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

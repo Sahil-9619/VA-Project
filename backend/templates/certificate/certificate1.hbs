@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate of Completion</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap");
+
+      /* PDF-friendly A4 landscape size */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        background: #f0f0f0;
+      }
+
+      .certificate {
+        width: 1123px; /* 11.69in * 96dpi ≈ 1123px for A4 landscape */
+        height: 794px; /* 8.27in * 96dpi ≈ 794px */
+        padding: 50px;
+        border: 12px solid #4caf50;
+        border-radius: 20px;
+        background: #fff
+          url("https://www.transparenttextures.com/patterns/geometry2.png")
+          repeat;
+        margin: 20px auto;
+        box-sizing: border-box;
+        position: relative;
+        text-align: center;
+      }
+
+      .certificate h1 {
+        font-family: "Great Vibes", cursive;
+        font-size: 60px;
+        color: #2e7d32;
+        margin: 0;
+      }
+
+      .certificate h2 {
+        font-size: 28px;
+        color: #555;
+        margin-top: 10px;
+      }
+
+      .certificate .recipient {
+        font-size: 36px;
+        font-weight: bold;
+        margin: 30px 0;
+        color: #000;
+        text-decoration: underline;
+      }
+
+      .certificate .details {
+        font-size: 22px;
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 60px;
+      }
+
+      .certificate .details strong {
+        color: #2e7d32;
+      }
+
+      .certificate .footer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 80px;
+        position: absolute;
+        bottom: 50px;
+        font-size: 20px;
+        color: #333;
+        box-sizing: border-box;
+      }
+
+      .certificate .signature-line {
+        border-top: 2px solid #000;
+        width: 250px;
+        margin-top: 5px;
+        text-align: center;
+      }
+
+      .certificate .seal {
+        position: absolute;
+        top: 50px;
+        right: 80px;
+        width: 100px;
+        height: 100px;
+        background: gold;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: #fff;
+        font-size: 24px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="certificate">
+      <div class="seal">🏅</div>
+      <h1>Certificate of Completion</h1>
+      <h2>This certificate is proudly presented to</h2>
+      <div class="recipient">{{studentName}}</div>
+      <p class="details">
+        For successfully completing the course <strong>{{courseName}}</strong>
+        <br />
+        Demonstrating excellence and commitment <br />
+        Completed on <strong>{{completionDate}}</strong>
+      </p>
+
+      <div class="footer">
+        <div>
+          <div>Instructor</div>
+          <div class="signature-line">{{instructorName}}</div>
+        </div>
+        <div>
+          <div>Authorized Signatory</div>
+          <div class="signature-line">{{authorizedSignatory}}</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
