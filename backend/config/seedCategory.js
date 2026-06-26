@@ -17,11 +17,19 @@ const seedCourseCategory = async () => {
 
     // Use upsert to avoid duplicates
     for (const category of categories) {
-      await CourseCategory.findOneAndUpdate({ slug: category.slug }, category, {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true,
-      });
+      try {
+        await CourseCategory.findOneAndUpdate({ name: category.name }, category, {
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
+        });
+      } catch (err) {
+        if (err.code === 11000) {
+          console.warn(`⚠️ Category '${category.name}' skipped due to duplicate key conflict.`);
+        } else {
+          throw err;
+        }
+      }
     }
 
     console.log("✅ Categories seeded/updated successfully");
