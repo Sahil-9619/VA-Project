@@ -195,33 +195,33 @@ const AddUsers = () => {
   };
 
   // Shared Flat Input Styles (White inputs popping off the slate background)
-  const inputStyles = "bg-white border-slate-200 focus:border-[#178F9E] focus:ring-2 focus:ring-[#178F9E]/20 rounded-xl transition-all shadow-sm";
+  const inputStyles = "bg-card border-border focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-md transition-all shadow-sm text-sm h-9";
 
   return (
-    <div className="min-h-screen bg-slate-50/50 p-4 md:p-8 font-sans pb-24">
-      <div className="max-w-3xl mx-auto space-y-12">
+    <div className="min-h-screen bg-transparent p-2 md:p-4 font-sans pb-12">
+      <div className="max-w-3xl mx-auto space-y-6">
         
         {/* HEADER AREA */}
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#178F9E]/10 flex items-center justify-center text-[#178F9E]">
-            <UserPlus className="w-7 h-7" />
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+            <UserPlus className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Create New User
             </h1>
-            <p className="text-base text-slate-500 mt-1">
+            <p className="text-sm text-muted-foreground">
               Add a new student, instructor, or administrator to the platform.
             </p>
           </div>
         </div>
 
         {/* FLAT FORM LAYOUT (No Cards) */}
-        <form onSubmit={onSubmit} className="space-y-10">
+        <form onSubmit={onSubmit} className="space-y-6">
           
           {/* SUCCESS MESSAGE INLINE */}
           {success && (
-            <div className={`p-4 rounded-xl text-sm font-medium bg-teal-50 text-[#178F9E]`}>
+            <div className="p-3 rounded-md text-sm font-medium bg-primary/10 text-primary border border-primary/20">
               {success}
             </div>
           )}
@@ -229,19 +229,19 @@ const AddUsers = () => {
           {/* ==========================================
               ROLE SELECTION
               ========================================== */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#178F9E]" /> Assign Role
+          <div className="space-y-3">
+            <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-primary" /> Assign Role
             </h2>
-            <div className="max-w-sm">
+            <div className="max-w-xs">
               <Select
                 value={form.roleName}
                 onValueChange={(value) => setForm((prev) => ({ ...prev, roleName: value }))}
               >
-                <SelectTrigger className={`h-12 bg-white ${inputStyles}`}>
+                <SelectTrigger className={`h-9 bg-card ${inputStyles}`}>
                   <SelectValue placeholder="Select Role" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl shadow-lg border-slate-200">
+                <SelectContent className="rounded-md shadow-md border-border">
                   <SelectItem value="user">Student</SelectItem>
                   <SelectItem value="instructor">Instructor</SelectItem>
                   <SelectItem value="admin">Administrator</SelectItem>
@@ -258,14 +258,14 @@ const AddUsers = () => {
               // ----------------------------------------
               // STUDENT FORM
               // ----------------------------------------
-              <div className="space-y-10">
+              <div className="space-y-6">
                 
                 {/* Basic Information */}
-                <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                    <User className="w-5 h-5 text-[#178F9E]" /> Basic Information
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                    <User className="w-4 h-4 text-primary" /> Basic Information
                   </h2>
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <div className="grid md:grid-cols-2 gap-3">
                     <Input name="firstName" placeholder="First Name" onChange={onChange} className={inputStyles} />
                     <Input name="lastName" placeholder="Last Name" onChange={onChange} className={inputStyles} />
                     <Input name="fatherName" placeholder="Father's Name" onChange={onChange} className={inputStyles} />
@@ -274,11 +274,11 @@ const AddUsers = () => {
                 </div>
 
                 {/* Contact Details */}
-                <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                    <Phone className="w-5 h-5 text-[#178F9E]" /> Contact Details
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                    <Phone className="w-4 h-4 text-primary" /> Contact Details
                   </h2>
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <div className="grid md:grid-cols-2 gap-3">
                     <Input name="phone" placeholder="Student Phone Number (10 Digits)" onChange={onChange} className={inputStyles} />
                     <Input name="parentPhone" placeholder="Parent Phone Number (10 Digits)" onChange={onChange} className={inputStyles} />
                     <Input type="email" name="email" placeholder="Email Address" onChange={onChange} className={`md:col-span-2 ${inputStyles}`} />
@@ -286,18 +286,18 @@ const AddUsers = () => {
                 </div>
 
                 {/* Personal Details */}
-                <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                    <Settings2 className="w-5 h-5 text-[#178F9E]" /> Personal Details
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                    <Settings2 className="w-4 h-4 text-primary" /> Personal Details
                   </h2>
-                  <div className="grid md:grid-cols-3 gap-5">
+                  <div className="grid md:grid-cols-3 gap-3">
                     <Input type="date" name="dateOfBirth" onChange={onChange} className={inputStyles} />
                     
                     <Select value={form.gender} onValueChange={(value) => setForm((prev) => ({ ...prev, gender: value }))}>
-                      <SelectTrigger className={`h-10 ${inputStyles}`}>
+                      <SelectTrigger className={`h-9 ${inputStyles}`}>
                         <SelectValue placeholder="Gender" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200 shadow-lg">
+                      <SelectContent className="rounded-md border-border shadow-md">
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
@@ -305,10 +305,10 @@ const AddUsers = () => {
                     </Select>
 
                     <Select value={form.category} onValueChange={(value) => setForm((prev) => ({ ...prev, category: value }))}>
-                      <SelectTrigger className={`h-10 ${inputStyles}`}>
+                      <SelectTrigger className={`h-9 ${inputStyles}`}>
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200 shadow-lg">
+                      <SelectContent className="rounded-md border-border shadow-md">
                         <SelectItem value="general">General</SelectItem>
                         <SelectItem value="obc">OBC</SelectItem>
                         <SelectItem value="sc">SC</SelectItem>
@@ -319,11 +319,11 @@ const AddUsers = () => {
                 </div>
 
                 {/* Academic Details */}
-                <div className="space-y-4">
-                  <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-[#178F9E]" /> Academic Enrollment
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-primary" /> Academic Enrollment
                   </h2>
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <div className="grid md:grid-cols-2 gap-3">
                     <Select
                       value={form.course}
                       onValueChange={(value) => {
@@ -333,10 +333,10 @@ const AddUsers = () => {
                         setSections(uniqueSections);
                       }}
                     >
-                      <SelectTrigger className={`h-10 ${inputStyles}`}>
+                      <SelectTrigger className={`h-9 ${inputStyles}`}>
                         <SelectValue placeholder="Select Class" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200 shadow-lg" position="popper">
+                      <SelectContent className="rounded-md border-border shadow-md" position="popper">
                         {[...new Map(allClasses.map((c) => [c.className, c])).values()]
                           .sort((a, b) => Number(a.className) - Number(b.className))
                           .map((cls) => (
@@ -348,10 +348,10 @@ const AddUsers = () => {
                     </Select>
 
                     <Select value={form.section} onValueChange={(value) => setForm((prev) => ({ ...prev, section: value }))}>
-                      <SelectTrigger className={`h-10 ${inputStyles}`}>
+                      <SelectTrigger className={`h-9 ${inputStyles}`}>
                         <SelectValue placeholder="Select Section" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200 shadow-lg">
+                      <SelectContent className="rounded-md border-border shadow-md">
                         {sections.map((sec) => (
                           <SelectItem key={sec._id} value={sec.section}>
                             Section {sec.section}
@@ -363,36 +363,36 @@ const AddUsers = () => {
                 </div>
 
                 {/* Address & Photo */}
-                <div className="grid md:grid-cols-2 gap-8 pt-2">
-                  <div className="space-y-4">
-                    <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-[#178F9E]" /> Address
+                <div className="grid md:grid-cols-2 gap-4 pt-1">
+                  <div className="space-y-3">
+                    <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-primary" /> Address
                     </h2>
                     <Input name="address" placeholder="Full Residential Address" onChange={onChange} className={inputStyles} />
                   </div>
 
-                  <div className="space-y-4">
-                    <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                      <Camera className="w-5 h-5 text-[#178F9E]" /> Profile Photo
+                  <div className="space-y-3">
+                    <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                      <Camera className="w-4 h-4 text-primary" /> Profile Photo
                     </h2>
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-4">
                       {photoPreview ? (
                         <div className="relative">
-                          <img src={photoPreview} alt="preview" className="w-16 h-16 rounded-full object-cover border-2 border-[#178F9E] shadow-md" />
+                          <img src={photoPreview} alt="preview" className="w-12 h-12 rounded-full object-cover border-2 border-primary shadow-sm" />
                           <button
                             type="button"
                             onClick={() => { setPhotoPreview(null); setForm((prev) => ({ ...prev, photo: null })); }}
-                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors shadow-sm"
+                            className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 hover:bg-destructive/90 transition-colors shadow-sm"
                           >
                             <X className="w-3 h-3" />
                           </button>
                         </div>
                       ) : (
-                        <div className="w-16 h-16 rounded-full border-2 border-dashed border-slate-300 bg-white flex items-center justify-center text-slate-400">
-                          <User className="w-6 h-6" />
+                        <div className="w-12 h-12 rounded-full border border-dashed border-border bg-muted/50 flex items-center justify-center text-muted-foreground">
+                          <User className="w-5 h-5" />
                         </div>
                       )}
-                      <label className="cursor-pointer bg-white border border-[#178F9E] px-5 py-2.5 rounded-xl text-sm font-medium text-[#178F9E] hover:bg-[#178F9E] hover:text-white transition-all shadow-sm flex items-center gap-2">
+                      <label className="cursor-pointer bg-transparent border border-primary px-3 py-1.5 rounded-md text-sm font-medium text-primary hover:bg-primary/10 transition-all shadow-sm flex items-center gap-2">
                         <UploadCloud className="w-4 h-4" />
                         {photoPreview ? "Change Photo" : "Upload Photo"}
                         <input type="file" name="photo" accept="image/*" onChange={onChange} className="hidden" />
@@ -405,25 +405,25 @@ const AddUsers = () => {
               // ----------------------------------------
               // ADMIN / INSTRUCTOR FORM
               // ----------------------------------------
-              <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center gap-2">
-                  <User className="w-5 h-5 text-[#178F9E]" /> Credentials
+              <div className="space-y-3">
+                <h2 className="text-sm font-bold text-foreground border-b border-border pb-1.5 flex items-center gap-2">
+                  <User className="w-4 h-4 text-primary" /> Credentials
                 </h2>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">Full Name</label>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground ml-0.5">Full Name</label>
                     <Input name="name" placeholder="John Doe" onChange={onChange} className={inputStyles} />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground ml-0.5">Email Address</label>
                     <Input type="email" name="email" placeholder="john@example.com" onChange={onChange} className={inputStyles} />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">Temporary Password</label>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground ml-0.5">Temporary Password</label>
                     <Input type="password" name="password" placeholder="••••••••" onChange={onChange} className={inputStyles} />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">Phone Number</label>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground ml-0.5">Phone Number</label>
                     <Input name="phone" placeholder="10 Digit Phone Number" onChange={onChange} className={inputStyles} />
                   </div>
                 </div>
@@ -432,11 +432,11 @@ const AddUsers = () => {
           </div>
 
           {/* FOOTER / SUBMIT BUTTON */}
-          <div className="pt-8 flex justify-end">
+          <div className="pt-4 flex justify-end">
             <Button
               type="submit"
               disabled={submitting}
-              className="bg-[#178F9E] hover:bg-[#0F6F7C] text-white font-bold px-10 py-6 rounded-xl shadow-lg shadow-[#178F9E]/20 transition-all text-lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-2 rounded-md shadow-sm transition-all text-sm"
             >
               {submitting ? "Processing..." : `Create ${form.roleName === "user" ? "Student" : form.roleName.charAt(0).toUpperCase() + form.roleName.slice(1)}`}
             </Button>
@@ -445,18 +445,18 @@ const AddUsers = () => {
 
         {/* SUCCESS MODAL */}
         <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-          <AlertDialogContent className="rounded-2xl border-slate-200">
+          <AlertDialogContent className="rounded-lg border-border bg-card">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-[#178F9E] flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5" /> Success
+              <AlertDialogTitle className="text-primary flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4" /> Success
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-slate-600 text-base">
+              <AlertDialogDescription className="text-muted-foreground text-sm">
                 {success || "User account has been successfully created and added to the system."}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogAction
-                className="bg-[#178F9E] hover:bg-[#0F6F7C] rounded-xl px-6"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md px-4 text-sm"
                 onClick={() => {
                   setShowSuccessDialog(false);
                   router.push("/admin/dashboard/users");
@@ -468,20 +468,20 @@ const AddUsers = () => {
           </AlertDialogContent>
         </AlertDialog>
 
-        {/* ERROR MODAL (Popping from top via standard Shadcn behavior) */}
+        {/* ERROR MODAL */}
         <AlertDialog open={showErrorDialog} onOpenChange={setShowErrorDialog}>
-          <AlertDialogContent className="rounded-2xl border-slate-200">
+          <AlertDialogContent className="rounded-lg border-border bg-card">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-red-600 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5" /> Validation Error
+              <AlertDialogTitle className="text-destructive flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4" /> Validation Error
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-slate-600 text-base">
+              <AlertDialogDescription className="text-muted-foreground text-sm">
                 {error || "An error occurred while trying to process your request. Please check your inputs."}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogAction
-                className="bg-slate-900 hover:bg-slate-800 text-white rounded-xl px-6"
+                className="bg-muted hover:bg-muted/80 text-foreground rounded-md px-4 text-sm border border-border"
                 onClick={() => setShowErrorDialog(false)}
               >
                 Close

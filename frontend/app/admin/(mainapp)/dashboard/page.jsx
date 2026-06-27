@@ -108,19 +108,19 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
 
           {/* Card 1: Total Classes */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors duration-500"></div>
-            <div className="absolute top-4 -right-4 w-12 h-12 rounded-full bg-indigo-500/10 group-hover:bg-indigo-500/20 transition-colors duration-500"></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-blue-500 to-indigo-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-500"></div>
+            <div className="absolute top-4 -right-4 w-12 h-12 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-500"></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <BookOpen className="h-6 w-6 text-admin-text/60" />
+                <BookOpen className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Classes</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Classes</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.classes ?? 0}</span>
-                    <TrendingUp className="w-4 h-4 text-blue-400" />
+                    <span className="text-2xl font-extrabold leading-none">{totals?.classes ?? 0}</span>
+                    <TrendingUp className="w-4 h-4 text-blue-200" />
                   </div>
                 </div>
               </div>
@@ -128,18 +128,18 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 2: Total Users */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-4 -top-4 w-20 h-20 bg-amber-500/10 group-hover:bg-amber-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-amber-500 to-orange-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-4 -top-4 w-20 h-20 bg-white/10 group-hover:bg-white/20 transition-colors duration-500" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <Users className="h-6 w-6 text-admin-text/60" />
+                <Users className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Users</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Users</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.users ?? 0}</span>
-                    <Users className="w-4 h-4 text-amber-400" />
+                    <span className="text-2xl font-extrabold leading-none">{totals?.users ?? 0}</span>
+                    <Users className="w-4 h-4 text-amber-200" />
                   </div>
                 </div>
               </div>
@@ -147,18 +147,18 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 3: Gross Revenue */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors duration-500 transform rotate-45"></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 bg-white/10 group-hover:bg-white/20 transition-colors duration-500 transform rotate-45"></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <DollarSign className="h-6 w-6 text-admin-text/60" />
+                <DollarSign className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Gross Rev</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Gross Rev</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.grossRevenue || 0)}</span>
-                    <div className="text-[10px] text-emerald-400 font-medium border border-emerald-400/20 rounded px-1.5 bg-emerald-400/10">+</div>
+                    <span className="text-2xl font-extrabold leading-none">₹{Math.floor(revenue?.grossRevenue || 0)}</span>
+                    <div className="text-[10px] text-emerald-100 font-medium border border-emerald-100/30 rounded px-1.5 bg-emerald-100/10">+</div>
                   </div>
                 </div>
               </div>
@@ -166,17 +166,17 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 4: Expected Rev */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-2 top-0 w-20 h-20 bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-purple-500 to-fuchsia-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-2 top-0 w-20 h-20 bg-white/10 group-hover:bg-white/20 transition-colors duration-500" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <CreditCard className="h-6 w-6 text-admin-text/60" />
+                <CreditCard className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Expected</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Expected</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalExpectedRevenue || 0)}</span>
+                    <span className="text-2xl font-extrabold leading-none">₹{Math.floor(revenue?.totalExpectedRevenue || 0)}</span>
                   </div>
                 </div>
               </div>
@@ -184,18 +184,18 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 5: Collected Rev */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-6 -top-6 w-20 h-20 border-[8px] border-cyan-500/10 rounded-full group-hover:border-cyan-500/20 transition-colors duration-500"></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-6 -top-6 w-20 h-20 border-[8px] border-white/10 rounded-full group-hover:border-white/20 transition-colors duration-500"></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <DollarSign className="h-6 w-6 text-admin-text/60" />
+                <DollarSign className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Collected</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Collected</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalCollectedRevenue || 0)}</span>
-                    <BookOpen className="w-4 h-4 text-cyan-400" />
+                    <span className="text-2xl font-extrabold leading-none">₹{Math.floor(revenue?.totalCollectedRevenue || 0)}</span>
+                    <BookOpen className="w-4 h-4 text-cyan-200" />
                   </div>
                 </div>
               </div>
@@ -203,17 +203,17 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 6: Pending Rev */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-4 -top-4 w-16 h-16 rounded-2xl bg-rose-500/10 group-hover:bg-rose-500/20 transition-colors duration-500 transform rotate-12"></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-rose-500 to-pink-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 rounded-2xl bg-white/10 group-hover:bg-white/20 transition-colors duration-500 transform rotate-12"></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <Calendar className="h-6 w-6 text-admin-text/60" />
+                <Calendar className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Pending</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Pending</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">₹{Math.floor(revenue?.totalPendingRevenue || 0)}</span>
+                    <span className="text-2xl font-extrabold leading-none">₹{Math.floor(revenue?.totalPendingRevenue || 0)}</span>
                   </div>
                 </div>
               </div>
@@ -221,18 +221,18 @@ const AdminDashboard = () => {
           </Card>
 
           {/* Card 7: Total Enrollments */}
-          <Card className="relative overflow-hidden border border-admin-border dark:border-transparent bg-admin-card shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px]">
-            <div className="card-line-pattern"></div>
-            <div className="absolute -right-4 -top-4 w-16 h-16 bg-fuchsia-500/10 group-hover:bg-fuchsia-500/20 transition-colors duration-500" style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}></div>
+          <Card className="relative overflow-hidden border-none bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md hover:shadow-lg transition-all duration-300 group min-h-[75px] text-white">
+            <div className="card-line-pattern opacity-20"></div>
+            <div className="absolute -right-4 -top-4 w-16 h-16 bg-white/10 group-hover:bg-white/20 transition-colors duration-500" style={{ clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)' }}></div>
 
             <CardContent className="p-3 flex flex-col justify-center h-full relative z-10">
               <div className="flex items-center space-x-3">
-                <Award className="h-6 w-6 text-admin-text/60" />
+                <Award className="h-6 w-6 text-white/80" />
                 <div className="flex flex-col">
-                  <h3 className="text-xs font-bold tracking-wider uppercase text-admin-text/60 line-clamp-1 mb-1">Enrollments</h3>
+                  <h3 className="text-xs font-bold tracking-wider uppercase text-white/80 line-clamp-1 mb-1">Enrollments</h3>
                   <div className="flex items-baseline space-x-2">
-                    <span className="text-2xl font-extrabold text-admin-text leading-none">{totals?.students ?? 0}</span>
-                    <div className="text-[10px] text-fuchsia-400 font-medium">Act: {totals?.activeEnrollments ?? 0}</div>
+                    <span className="text-2xl font-extrabold leading-none">{totals?.students ?? 0}</span>
+                    <div className="text-[10px] text-indigo-100 font-medium">Act: {totals?.activeEnrollments ?? 0}</div>
                   </div>
                 </div>
               </div>
@@ -258,7 +258,11 @@ const AdminDashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--admin-border)" />
                   <XAxis dataKey="month" tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
                   <YAxis tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
-                  <Tooltip contentStyle={{ backgroundColor: "var(--admin-card)", borderColor: "var(--admin-border)", borderRadius: "8px", color: "var(--admin-text)" }} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: "var(--admin-card)", borderColor: "var(--admin-border)", borderRadius: "8px" }} 
+                    itemStyle={{ color: "var(--admin-text)" }} 
+                    labelStyle={{ color: "var(--admin-text)" }} 
+                  />
                   <Line type="monotone" dataKey="expected" stroke="#818cf8" strokeWidth={2} name="Expected" />
                   <Line type="monotone" dataKey="collected" stroke="#34d399" strokeWidth={2} name="Collected" />
                   <Line type="monotone" dataKey="pending" stroke="#f87171" strokeWidth={2} name="Pending" />
@@ -298,9 +302,10 @@ const AdminDashboard = () => {
                     contentStyle={{
                       backgroundColor: "var(--admin-card)",
                       borderColor: "var(--admin-border)",
-                      borderRadius: "8px",
-                      color: "var(--admin-text)"
+                      borderRadius: "8px"
                     }}
+                    itemStyle={{ color: "var(--admin-text)" }}
+                    labelStyle={{ color: "var(--admin-text)" }}
                   />
                 </PieChart>
               </ResponsiveContainer>

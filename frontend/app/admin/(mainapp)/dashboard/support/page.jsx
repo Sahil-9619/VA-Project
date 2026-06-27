@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Eye, Trash2, MailOpen, Inbox, ArrowRight } from "lucide-react";
+import { Search, Eye, Trash2, MailOpen, Inbox, ArrowRight, X } from "lucide-react";
 import Link from "next/link";
 import { ContactServices } from "@/services/contact.service";
+import { toast } from "sonner";
 
 // Helper for sleek avatars
 const getInitials = (name) => {
@@ -52,8 +53,9 @@ export default function SupportRequestsPage() {
       await ContactServices.deleteContact(id);
       fetchTickets();
       setDeleteId(null);
+      toast.success("Support ticket deleted successfully.");
     } catch (error) {
-      alert("Failed to delete ticket");
+      toast.error("Failed to delete ticket");
     }
   };
 
@@ -64,128 +66,135 @@ export default function SupportRequestsPage() {
   };
 
   const item = {
-    hidden: { opacity: 0, x: -10 },
-    show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 400, damping: 30 } },
+    hidden: { opacity: 0, y: -5 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
   };
 
   return (
     <>
-      <div className={`min-h-screen bg-background text-foreground transition-all duration-500 ${deleteId ? "blur-md scale-[0.99] pointer-events-none" : ""}`}>
-        <div className="max-w-5xl mx-auto px-6 py-16 md:py-12">
+      <div className={`min-h-screen bg-transparent font-sans pb-10 pt-2 transition-all duration-300 ${deleteId ? "blur-md scale-[0.99] pointer-events-none" : ""}`}>
+        <div className="container mx-auto space-y-6 max-w-7xl px-2 md:px-0">
           
-          {/* MINIMALIST HEADER */}
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-12"
-          >
-            <div className="flex items-center gap-3 text-muted-foreground mb-4">
-              <Inbox className="w-5 h-5" />
-              <span className="text-sm font-medium tracking-widest uppercase">Inbox</span>
+          {/* HEADER */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+            <div className="space-y-1">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                <Inbox className="w-5 h-5 text-primary" /> Support Inbox
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {loading ? "Loading requests..." : `Manage and respond to ${filteredData.length} open requests.`}
+              </p>
             </div>
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tighter text-foreground">
-              {loading ? "Loading..." : `${filteredData.length} Open Requests`}
-            </h1>
-          </motion.div>
+          </div>
 
-          {/* BORDERLESS SEARCH */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="relative group mb-8"
-          >
-            <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
-            <input
-              type="text"
-              placeholder="Search by name, email, or subject..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-transparent text-xl md:text-2xl placeholder:text-muted-foreground/30 border-b border-border/40 pb-4 pl-12 focus:outline-none focus:border-primary transition-all text-foreground"
-            />
-          </motion.div>
+          {/* SEARCH BAR (Compact & Glassmorphic) */}
+          <div className="bg-card/60 backdrop-blur-md p-1.5 rounded-lg shadow-sm border border-border/50 dark:border-slate-700/50 flex flex-col md:flex-row items-center gap-2 relative z-10 max-w-2xl">
+            <div className="flex items-center flex-1 px-3 w-full">
+              <Search className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
+              <input
+                type="text"
+                placeholder="Search by name, email, or subject..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground/70 h-9"
+              />
+              {search && (
+                <button 
+                  onClick={() => setSearch("")}
+                  className="text-muted-foreground hover:text-foreground transition p-1"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
 
           {/* FLUID LIST AREA */}
-          <div className="relative">
+          <div className="bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-sm rounded-lg overflow-hidden flex flex-col min-h-[50vh]">
             {loading ? (
-              <div className="space-y-2 py-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center gap-4 px-2 py-3 animate-pulse">
-                    <div className="w-10 h-10 rounded-full bg-muted"></div>
-                    <div className="space-y-2 flex-1">
-                      <div className="h-4 bg-muted rounded w-48"></div>
-                      <div className="h-3 bg-muted rounded w-96 max-w-full"></div>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex-1 flex flex-col items-center justify-center p-10">
+                <div className="w-6 h-6 border-2 border-muted border-t-primary rounded-full animate-spin mb-3"></div>
+                <p className="text-sm text-muted-foreground">Fetching support requests...</p>
               </div>
             ) : filteredData.length === 0 ? (
               <motion.div 
                 initial={{ opacity: 0 }} 
                 animate={{ opacity: 1 }} 
-                className="py-32 text-center flex flex-col items-center justify-center space-y-4"
+                className="flex-1 flex flex-col items-center justify-center p-12 text-center"
               >
-                <MailOpen className="w-12 h-12 text-muted-foreground/30 mb-2" />
-                <h3 className="text-xl font-medium text-foreground">Inbox Zero</h3>
-                <p className="text-muted-foreground">There are no support requests matching your criteria.</p>
+                <div className="w-12 h-12 rounded-full bg-muted/50 dark:bg-slate-700/50 flex items-center justify-center mb-4">
+                  <MailOpen className="w-6 h-6 text-muted-foreground/50 dark:text-slate-500" />
+                </div>
+                <h3 className="text-base font-medium text-foreground dark:text-slate-100 mb-1">Inbox Zero</h3>
+                <p className="text-muted-foreground dark:text-slate-400 text-xs max-w-[220px]">
+                  There are no support requests matching your criteria.
+                </p>
               </motion.div>
             ) : (
-              <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col">
+              <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col divide-y divide-border dark:divide-slate-700/50">
+                {/* List Header */}
+                <div className="flex items-center justify-between px-6 py-2.5 bg-primary/5 dark:bg-slate-900 text-xs font-semibold text-muted-foreground dark:text-slate-400 uppercase tracking-wider">
+                  <div className="flex items-center gap-10 flex-1">
+                    <span className="w-10">User</span>
+                    <span>Subject</span>
+                  </div>
+                  <span className="w-24 text-right">Date</span>
+                </div>
+
                 {filteredData.map((req) => (
                   <motion.div
                     key={req._id}
                     variants={item}
                     layout
-                    className="group relative flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-3 rounded-2xl hover:bg-accent/50 transition-colors duration-200 cursor-default"
+                    className="group relative flex flex-col sm:flex-row sm:items-center gap-4 py-3 px-6 hover:bg-muted/50 dark:hover:bg-slate-700/50 transition-colors duration-200"
                   >
                     
                     {/* AVATAR & INFO */}
                     <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold flex-shrink-0">
                         {getInitials(req?.name)}
                       </div>
-                      <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                        <span className="font-semibold text-foreground truncate max-w-[200px]">
+                      <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                        <span className="font-medium text-foreground dark:text-slate-100 text-sm truncate sm:w-[150px]">
                           {req?.name || "Unknown"}
                         </span>
                         <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-border"></span>
-                        <span className="text-muted-foreground truncate font-medium text-sm sm:text-base">
+                        <span className="text-muted-foreground dark:text-slate-300 truncate text-sm flex-1">
                           {req?.subject || "No Subject"}
                         </span>
                       </div>
                     </div>
 
-                    {/* DATE (Fades out on hover) */}
-                    <div className="text-sm text-muted-foreground whitespace-nowrap sm:group-hover:opacity-0 transition-opacity duration-200 pl-14 sm:pl-0">
+                    {/* DATE (Fades out on hover on Desktop) */}
+                    <div className="text-xs text-muted-foreground dark:text-slate-400 whitespace-nowrap sm:group-hover:opacity-0 transition-opacity duration-200 pl-12 sm:pl-0 w-24 text-right">
                       {req?.createdAt 
                         ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(req.createdAt)) 
                         : ""}
                     </div>
 
                     {/* FLOATING ACTION PILL (Slides in on hover) */}
-                    <div className="hidden sm:flex absolute right-4 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 items-center gap-1 bg-background border border-border shadow-sm rounded-full p-1 z-10">
+                    <div className="hidden sm:flex absolute right-6 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 items-center gap-1 bg-background dark:bg-slate-900 border border-border dark:border-slate-700 shadow-sm rounded-md p-1 z-10">
                       <Link href={`/admin/dashboard/support/view/${req._id}`}>
-                        <button className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-accent hover:text-foreground transition-colors text-muted-foreground">
-                          <Eye className="w-4 h-4" /> View
+                        <button className="flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium transition-colors text-muted-foreground dark:text-slate-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary">
+                          <Eye className="w-3.5 h-3.5" /> View
                         </button>
                       </Link>
-                      <div className="w-px h-4 bg-border mx-1"></div>
+                      <div className="w-px h-3 bg-border dark:bg-slate-700 mx-1"></div>
                       <button 
                         onClick={() => setDeleteId(req._id)}
-                        className="p-1.5 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                        className="p-1 rounded text-muted-foreground dark:text-slate-400 hover:bg-destructive/10 hover:text-destructive transition-colors"
                         title="Delete Ticket"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
                     {/* MOBILE ACTIONS */}
-                    <div className="flex sm:hidden items-center gap-4 pl-14 pt-2">
-                      <Link href={`/admin/dashboard/support/view/${req._id}`} className="text-primary text-sm font-medium flex items-center gap-1">
+                    <div className="flex sm:hidden items-center gap-4 pl-12 pt-1 border-t border-border/50 dark:border-slate-700/50 mt-2 pb-1">
+                      <Link href={`/admin/dashboard/support/view/${req._id}`} className="text-primary text-xs font-medium flex items-center gap-1">
                         View <ArrowRight className="w-3 h-3" />
                       </Link>
-                      <button onClick={() => setDeleteId(req._id)} className="text-destructive text-sm font-medium">
+                      <button onClick={() => setDeleteId(req._id)} className="text-destructive text-xs font-medium">
                         Delete
                       </button>
                     </div>
@@ -210,30 +219,30 @@ export default function SupportRequestsPage() {
               className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             />
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, filter: "blur(4px)" }}
-              animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-              exit={{ scale: 0.95, opacity: 0, filter: "blur(4px)" }}
-              transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-              className="relative w-full max-w-md bg-background border border-border rounded-2xl shadow-2xl overflow-hidden"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", duration: 0.3 }}
+              className="relative w-full max-w-[400px] bg-background dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg shadow-2xl overflow-hidden"
             >
               <div className="p-6">
-                <h2 className="text-xl font-semibold text-foreground mb-2">Delete Request</h2>
-                <p className="text-muted-foreground text-sm">
+                <h2 className="text-lg font-semibold text-foreground dark:text-slate-100 mb-2">Delete Request?</h2>
+                <p className="text-muted-foreground dark:text-slate-400 text-sm leading-relaxed">
                   This request will be permanently removed. This action cannot be undone.
                 </p>
               </div>
-              <div className="p-2 bg-muted/30 border-t border-border flex flex-col sm:flex-row gap-2">
+              <div className="p-4 bg-muted/30 dark:bg-slate-900/50 border-t border-border dark:border-slate-700 flex justify-end gap-2">
                 <button
                   onClick={() => setDeleteId(null)}
-                  className="w-full flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+                  className="px-4 py-2 rounded-md text-sm font-medium hover:bg-accent dark:hover:bg-slate-700 hover:text-accent-foreground dark:hover:text-slate-100 transition-colors border border-transparent hover:border-border dark:hover:border-slate-600"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleDelete(deleteId)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors shadow-sm"
+                  className="px-4 py-2 rounded-md text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors shadow-sm"
                 >
-                  <Trash2 className="w-4 h-4" /> Confirm Delete
+                  Confirm Delete
                 </button>
               </div>
             </motion.div>

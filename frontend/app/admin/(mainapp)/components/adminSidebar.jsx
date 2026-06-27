@@ -6,8 +6,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home, Package, Menu, X, LogOut, ChevronDown, Coins,
-  HeartHandshake, User, Settings, Wallet, Layout, ChevronLeft, ChevronRight
+  Home,
+  Package,
+  Menu,
+  X,
+  LogOut,
+  ChevronDown,
+  Coins,
+  HeartHandshake,
+  User,
+  Settings,
+  Wallet,
+  Layout,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { logout } from "@/lib/store/features/authSlice";
 import { brandName } from "../../../contants";
@@ -15,33 +27,34 @@ import CustomScrollbar from "@/components/ui/CustomScrollbar";
 
 const menuItems = [
   { name: "Dashboard", icon: Home, href: "/admin/dashboard" },
+  { name: "All Users", icon: Package, href: "/admin/dashboard/users" },
   {
-    name: "Users",
-    icon: Package,
-    children: [
-      { name: "All Users", href: "/admin/dashboard/users" },
-      { name: "Create Users", href: "/admin/dashboard/users/add-user" },
-    ],
+    name: "Student Details",
+    icon: User,
+    href: "/admin/dashboard/students_details",
   },
-  { name: "Student Details", icon: User, href: "/admin/dashboard/students_details" },
-  { name: "Class & Section", icon: Layout, href: "/admin/dashboard/class_section_management" },
+  {
+    name: "Class & Section",
+    icon: Layout,
+    href: "/admin/dashboard/class_section_management",
+  },
   {
     name: "Fee Management",
     icon: Wallet,
     children: [
       { name: "Fee Structure", href: "/admin/dashboard/fee_structure" },
-      { name: "Student Fee", href: "/admin/dashboard/student_fee" },      
+      { name: "Student Fee", href: "/admin/dashboard/student_fee" },
     ],
   },
   { name: "Support", icon: HeartHandshake, href: "/admin/dashboard/support" },
-  { name: "Categories", icon: Coins, href: "/admin/dashboard/categories" },
+  // { name: "Categories", icon: Coins, href: "/admin/dashboard/categories" },
   { name: "Settings", icon: Settings, href: "/admin/dashboard/settings" },
 ];
 
 export default function AdminSidebar() {
   const [open, setOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [openMenus, setOpenMenus] = useState([]); 
+  const [openMenus, setOpenMenus] = useState([]);
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -51,7 +64,8 @@ export default function AdminSidebar() {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (mobile) setOpen(false); // Default close on mobile
+      if (mobile)
+        setOpen(false); // Default close on mobile
       else setOpen(true); // Default open on desktop
     };
 
@@ -64,7 +78,9 @@ export default function AdminSidebar() {
   useEffect(() => {
     menuItems.forEach((item) => {
       if (item.children) {
-        const isChildActive = item.children.some((child) => pathname?.startsWith(child.href));
+        const isChildActive = item.children.some((child) =>
+          pathname?.startsWith(child.href),
+        );
         if (isChildActive && !openMenus.includes(item.name)) {
           setOpenMenus((prev) => [...prev, item.name]);
         }
@@ -76,14 +92,13 @@ export default function AdminSidebar() {
     try {
       await dispatch(logout());
       // router.push("/authentication/login")
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const toggleMenu = (name) => {
-    if (!open) setOpen(true); 
+    if (!open) setOpen(true);
     setOpenMenus((prev) =>
-      prev.includes(name) ? prev.filter((m) => m !== name) : [...prev, name]
+      prev.includes(name) ? prev.filter((m) => m !== name) : [...prev, name],
     );
   };
 
@@ -101,7 +116,7 @@ export default function AdminSidebar() {
     <>
       {/* Mobile Overlay Background - Dimming effect */}
       {isMobile && open && (
-        <div 
+        <div
           className="fixed inset-0 bg-admin-bg/80 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={() => setOpen(false)}
         />
@@ -117,7 +132,7 @@ export default function AdminSidebar() {
         </button>
       )}
 
-      <aside 
+      <aside
         className={`fixed md:relative z-50 flex flex-col h-screen bg-admin-bg/60 backdrop-blur-md text-admin-text transition-all duration-300 ease-out border-r border-admin-border/50 shadow-[2px_0_8px_rgba(0,0,0,0.1)] flex-shrink-0 
 ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[68px]"}        `}
       >
@@ -127,7 +142,11 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
             onClick={() => setOpen(!open)}
             className="absolute -right-3 top-5 w-6 h-6 bg-admin-card hover:bg-admin-primary hover:scale-110 text-admin-text border border-admin-border rounded-full flex items-center justify-center transition-all duration-300 z-50 shadow-md"
           >
-            {open ? <ChevronLeft size={14} strokeWidth={3} /> : <ChevronRight size={14} strokeWidth={3} />}
+            {open ? (
+              <ChevronLeft size={14} strokeWidth={3} />
+            ) : (
+              <ChevronRight size={14} strokeWidth={3} />
+            )}
           </button>
         )}
 
@@ -163,9 +182,9 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
         {/* Navigation Links */}
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1.5 relative hide-scrollbar">
           {menuItems.map((item, idx) => {
-            const isItemActive = item.href 
-              ? isActive(item.href) 
-              : item.children?.some(child => isActive(child.href));
+            const isItemActive = item.href
+              ? isActive(item.href)
+              : item.children?.some((child) => isActive(child.href));
 
             const isMenuOpen = openMenus.includes(item.name) && open;
 
@@ -179,13 +198,17 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
                       isItemActive
                         ? "bg-gradient-to-r from-admin-primary/20 to-transparent text-admin-text font-semibold border-l-[4px] border-admin-primary rounded-r-xl rounded-l-full shadow-sm"
                         : isMenuOpen
-                        ? "bg-admin-card/40 text-admin-text font-medium rounded-xl border-l-[4px] border-transparent"
-                        : "hover:bg-admin-card/40 text-admin-text/60 font-medium rounded-xl border-l-[4px] border-transparent"
+                          ? "bg-admin-card/40 text-admin-text font-medium rounded-xl border-l-[4px] border-transparent"
+                          : "hover:bg-admin-card/40 text-admin-text/60 font-medium rounded-xl border-l-[4px] border-transparent"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 relative z-10">
-                      <item.icon className={`w-[18px] h-[18px] flex-shrink-0 transition-all duration-300 ${isItemActive ? "text-admin-primary drop-shadow-[0_0_8px_rgba(23,143,158,0.5)]" : isMenuOpen ? "text-admin-text" : "text-admin-text/40 group-hover:text-admin-text/80 group-hover:scale-110"}`} />
-                      <span className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}>
+                      <item.icon
+                        className={`w-[18px] h-[18px] flex-shrink-0 transition-all duration-300 ${isItemActive ? "text-admin-primary drop-shadow-[0_0_8px_rgba(23,143,158,0.5)]" : isMenuOpen ? "text-admin-text" : "text-admin-text/40 group-hover:text-admin-text/80 group-hover:scale-110"}`}
+                      />
+                      <span
+                        className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}
+                      >
                         {item.name}
                       </span>
                     </div>
@@ -205,8 +228,12 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
                         : "hover:bg-admin-card/40 text-admin-text/60 font-medium hover:translate-x-1 rounded-xl border-l-[4px] border-transparent"
                     }`}
                   >
-                    <item.icon className={`w-[18px] h-[18px] flex-shrink-0 transition-transform duration-300 ${isItemActive ? "text-admin-primary drop-shadow-[0_0_8px_rgba(23,143,158,0.5)]" : "text-admin-text/40 group-hover:text-admin-text/80 group-hover:scale-110"}`} />
-                    <span className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}>
+                    <item.icon
+                      className={`w-[18px] h-[18px] flex-shrink-0 transition-transform duration-300 ${isItemActive ? "text-admin-primary drop-shadow-[0_0_8px_rgba(23,143,158,0.5)]" : "text-admin-text/40 group-hover:text-admin-text/80 group-hover:scale-110"}`}
+                    />
+                    <span
+                      className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}
+                    >
                       {item.name}
                     </span>
                   </Link>
@@ -219,7 +246,10 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      transition={{
+                        duration: 0.3,
+                        ease: [0.04, 0.62, 0.23, 0.98],
+                      }}
                       className="overflow-hidden"
                     >
                       <ul className="mt-1 mb-1.5 ml-5 pl-3 border-l border-admin-border space-y-0.5">
@@ -263,7 +293,9 @@ ${open ? "translate-x-0 w-[220px]" : "-translate-x-full md:translate-x-0 md:w-[6
             } bg-admin-card/50 hover:bg-rose-500/10 border border-admin-border hover:border-rose-500/30 text-admin-text/60 hover:text-rose-400 font-medium`}
           >
             <LogOut className="w-[18px] h-[18px] flex-shrink-0 text-admin-text/40 group-hover:text-rose-400 transition-colors duration-300" />
-            <span className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}>
+            <span
+              className={`truncate text-[13px] transition-opacity duration-300 ${!open && "opacity-0 w-0 hidden"}`}
+            >
               Sign Out
             </span>
           </button>

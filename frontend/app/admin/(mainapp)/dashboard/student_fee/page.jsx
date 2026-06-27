@@ -141,7 +141,7 @@ export default function AdminFeeManagement() {
               if (!sec.classId) {
                 console.error(`Class ${idx}, Section ${secIdx}: Missing classId!`, sec);
               } else {
-                console.log(`✓ Class ${cls.className} Section ${sec.name}: classId = ${sec.classId}`);
+                console.log(`âœ“ Class ${cls.className} Section ${sec.name}: classId = ${sec.classId}`);
               }
             });
           } catch (e) {
@@ -199,7 +199,7 @@ export default function AdminFeeManagement() {
         });
         return;
       }
-      // Case 1 → admission search (existing logic)
+      // Case 1 â†’ admission search (existing logic)
       if (admission || admissionNo?.trim()) {
 
         const res = await adminServices.getStudentFeeByAdmission(admission || admissionNo);
@@ -221,10 +221,10 @@ export default function AdminFeeManagement() {
 
         setStudent(data.student);
 
-        // Map feeComponents array → named fields for the UI
+        // Map feeComponents array â†’ named fields for the UI
         const fee = data.fee || {};
         const componentsMap = {};
-        console.log("🔍 feeComponents from API:", fee.feeComponents);
+        console.log("ðŸ” feeComponents from API:", fee.feeComponents);
         (fee.feeComponents || []).forEach(f => {
           const key = f.name?.toLowerCase();
           console.log("  component:", key, "->", f.amount);
@@ -236,7 +236,7 @@ export default function AdminFeeManagement() {
           if (key === "late fee" || key === "latefee") componentsMap.lateFeePerDay = f.amount;
         });
         componentsMap.lateFeePerDay = componentsMap.lateFeePerDay ?? (fee.lateFeePerDay || 0);
-        console.log("🗺️ mapped:", componentsMap);
+        console.log("ðŸ—ºï¸ mapped:", componentsMap);
 
         setFeeStructure({ ...fee, ...componentsMap });
         setSummary(fee);
@@ -313,7 +313,7 @@ export default function AdminFeeManagement() {
           return;
         }
 
-        // 🔒 Sequential check: all previous months must be paid first
+        // ðŸ”’ Sequential check: all previous months must be paid first
         const monthIndex = months.indexOf(selectedMonth);
         for (let i = 0; i < monthIndex; i++) {
           const prevMonth = months[i];
@@ -561,17 +561,17 @@ export default function AdminFeeManagement() {
   }
 
   // Monthly expected comes directly from API (sum of monthly-type fee components)
-  // Do NOT compute it as remainingAmount/12 — that changes after one-time payments are made.
+  // Do NOT compute it as remainingAmount/12 â€” that changes after one-time payments are made.
 
   return (
 
-    <div className="p-10 bg-[#F4FDFE] min-h-screen space-y-12">
+    <div className="p-4 md:p-6 bg-transparent font-sans min-h-screen space-y-8">
 
       {/* ---------------- Search ---------------- */}
 
       <section>
 
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-2xl font-semibold text-foreground dark:text-slate-100 mb-6">
           Fee Management Search
         </h2>
 
@@ -580,7 +580,7 @@ export default function AdminFeeManagement() {
 
             <button
               onClick={() => setOpenClassMenu(!openClassMenu)}
-              className="border border-gray-300 px-4 py-2 rounded-md text-sm w-40 bg-white flex items-center justify-between"
+              className="border border-border dark:border-slate-700 px-4 py-2 rounded-md text-sm w-40 bg-card dark:bg-slate-800 flex items-center justify-between"
             >
               <span>
                 {selectedClass
@@ -605,14 +605,14 @@ export default function AdminFeeManagement() {
 
               <ChevronDown
                 size={16}
-                className={`text-gray-500 transition-transform ${openClassMenu ? "rotate-180" : ""
+                className={`text-muted-foreground dark:text-slate-400 transition-transform ${openClassMenu ? "rotate-180" : ""
                   }`}
               />
             </button>
 
             {openClassMenu && (
 
-              <div className="absolute top-10 left-0 bg-white border rounded-md shadow-md w-40 z-50">
+              <div className="absolute top-10 left-0 bg-card dark:bg-slate-800 border rounded-md shadow-md w-40 z-50">
 
                 {classes.map((cls) => (
 
@@ -621,21 +621,21 @@ export default function AdminFeeManagement() {
                     onClick={() =>
                       setHoverClass(hoverClass === cls.className ? null : cls.className)
                     }
-                    className="relative px-4 py-2 hover:bg-gray-100 cursor-pointer flex justify-between"
+                    className="relative px-4 py-2 hover:bg-muted dark:hover:bg-slate-700 cursor-pointer flex justify-between"
                   >
 
                     <span>Class {cls.className}</span>
 
-                    <ChevronRight size={16} className="text-gray-500" />
+                    <ChevronRight size={16} className="text-muted-foreground dark:text-slate-400" />
 
                     {/* SECTION MENU */}
 
                     {hoverClass === cls.className && (
 
-                      <div className="absolute left-full top-0 bg-white border rounded-md shadow-md w-32">
+                      <div className="absolute left-full top-0 bg-card dark:bg-slate-800 border rounded-md shadow-md w-32">
 
                         <div
-                          className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                          className="px-3 py-2 hover:bg-muted dark:hover:bg-slate-700 cursor-pointer"
                           onClick={() => {
                             if (!cls.sections || cls.sections.length === 0) {
                               console.error("No sections available for this class");
@@ -657,7 +657,7 @@ export default function AdminFeeManagement() {
 
                           <div
                             key={sec.name}
-                            className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                            className="px-3 py-2 hover:bg-muted dark:hover:bg-slate-700 cursor-pointer"
                             onClick={() => {
                               if (!sec || !sec.classId || !sec.name) {
                                 console.error("Invalid section data:", sec);
@@ -699,9 +699,9 @@ export default function AdminFeeManagement() {
               setSelectedMonth(e.target.value)
               setAdmissionNo("")
               router.replace("/admin/dashboard/student_fee")
-            }} className="border border-gray-300 px-4 py-2 rounded-md text-sm focus:ring-2 focus:ring-[#178F9E]"
+            }} className="border border-border dark:border-slate-700 bg-background dark:bg-slate-900 text-foreground dark:text-slate-100 px-4 py-2 rounded-md text-sm focus:ring-2 focus:ring-primary"
           >
-            <option value="">Select Month</option>
+            <option value="" className="bg-background dark:bg-slate-900">Select Month</option>
 
             {months.map((m) => {
 
@@ -711,7 +711,7 @@ export default function AdminFeeManagement() {
                   key={m}
                   value={m}
                   disabled={isPaidMonth}
-                  style={isPaidMonth ? { color: '#9ca3af', background: '#f3f4f6' } : {}}
+                  className={isPaidMonth ? 'text-muted-foreground bg-muted dark:bg-slate-800/50' : 'text-foreground bg-background dark:bg-slate-900'}
                 >
                   {m}{isPaidMonth ? ' ✓ Paid' : ''}
                 </option>
@@ -733,7 +733,7 @@ export default function AdminFeeManagement() {
                 router.replace("/admin/dashboard/student_fee");
               }
             }}
-            className="border border-gray-300 px-4 py-2 rounded-md text-sm w-72"
+            className="border border-border dark:border-slate-700 px-4 py-2 rounded-md text-sm w-72"
           />
 
 
@@ -749,7 +749,7 @@ export default function AdminFeeManagement() {
               handleSearch()
 
             }}
-            className="bg-[#178F9E] text-white px-6 py-2 rounded-md hover:bg-[#0F6F7C]"
+            className="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90"
           >
             Search
           </button>
@@ -760,7 +760,7 @@ export default function AdminFeeManagement() {
 
         <section>
 
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">
+          <h2 className="text-xl font-semibold text-foreground dark:text-slate-100 mb-6">
             Student Fee Status - {selectedSection === "ALL" ? (() => {
               for (const cls of classes) {
                 if (cls.sections.some(s => s.classId === selectedClass)) {
@@ -780,9 +780,9 @@ export default function AdminFeeManagement() {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full border border-[#D9F1F4] text-sm">
+            <table className="w-full border border-border dark:border-slate-700 text-sm">
 
-              <thead className="bg-[#E8F9FB] text-[#0F6F7C]">
+              <thead className="bg-muted dark:bg-slate-800 text-primary">
 
                 <tr>
                   <th className="p-3 border text-left">Admission No</th>
@@ -803,7 +803,7 @@ export default function AdminFeeManagement() {
 
                 {currentStudents.length === 0 && (
                   <tr>
-                    <td colSpan="8" className="text-center py-6 text-gray-500">
+                    <td colSpan="8" className="text-center py-6 text-muted-foreground dark:text-slate-400">
                       No students found
                     </td>
                   </tr>
@@ -824,46 +824,46 @@ export default function AdminFeeManagement() {
                       key={s._id}
                       className={`
 
-${index % 2 === 0 ? "bg-white" : "bg-[#F4FDFE]"}
-hover:bg-[#ECFAFC] transition
+${index % 2 === 0 ? "bg-card dark:bg-slate-800" : "bg-background dark:bg-slate-900"}
+hover:bg-muted/50 dark:bg-slate-800/50 transition
 
 `}
                     >
 
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {s.admissionNumber}
                       </td>
 
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {s.firstName} {s.lastName}
                       </td>
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {s.fatherName || "N/A"}
                       </td>
 
 
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {s.email || "N/A"}
                       </td>
 
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {s.phone || "N/A"}
                       </td>
 
 
-                      <td className="p-3 border border-[#D9F1F4] font-semibold">
+                      <td className="p-3 border border-border dark:border-slate-700 font-semibold">
                         <Summary
 
                           value={totalAssignedFee}
-                          color="text-[#0F6F7C]"
+                          color="text-primary"
                         />
                       </td>
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
                         {selectedMonth ? (() => {
                           const studentMonthlyFees = {};
                           (s.fee?.payments || []).forEach(p => {
@@ -893,7 +893,7 @@ hover:bg-[#ECFAFC] transition
                           }
 
                           if (studentMonthlyExpected <= 0) {
-                            return <span className="text-gray-400 font-medium italic">N/A</span>;
+                            return <span className="text-muted-foreground/80 dark:text-slate-500 font-medium italic">N/A</span>;
                           }
 
                           if (paid === 0) return <span className="text-red-500 font-semibold">Unpaid</span>;
@@ -916,13 +916,13 @@ hover:bg-[#ECFAFC] transition
                       </td>
 
 
-                      <td className="p-3 border border-[#D9F1F4]">
+                      <td className="p-3 border border-border dark:border-slate-700">
 
                         <Link href={`/admin/dashboard/student_fee?admission=${s.admissionNumber}`}>
 
                           <SquareArrowOutUpRight
                             size={22}
-                            className="cursor-pointer text-[#178F9E]"
+                            className="cursor-pointer text-primary"
                           />
 
                         </Link>
@@ -950,7 +950,7 @@ hover:bg-[#ECFAFC] transition
                     setRowsPerPage(Number(e.target.value))
                     setCurrentPage(1)
                   }}
-                  className="border rounded px-2 py-1"
+                  className="border border-border dark:border-slate-700 rounded px-2 py-1 bg-background dark:bg-slate-900 text-foreground"
                 >
 
                   <option value={10}>10</option>
@@ -1022,7 +1022,7 @@ hover:bg-[#ECFAFC] transition
 
           <section>
 
-            <h2 className="text-xl font-bold text-[#0F6F7C] mb-6">
+            <h2 className="text-xl font-bold text-primary mb-6">
               Student Information
             </h2>
 
@@ -1042,7 +1042,7 @@ hover:bg-[#ECFAFC] transition
 
           <section>
 
-            <h2 className="text-xl font-bold text-[#0F6F7C] mb-6">
+            <h2 className="text-xl font-bold text-primary mb-6">
               Fee Structure
             </h2>
 
@@ -1051,10 +1051,10 @@ hover:bg-[#ECFAFC] transition
 
                 {summary.feeComponents.map((component, index) => (
                   <div key={index}>
-                    <label className="text-sm text-gray-500 capitalize flex items-center gap-1 mb-1">
+                    <label className="text-sm text-muted-foreground dark:text-slate-400 capitalize flex items-center gap-1 mb-1">
                       <span>✏️</span>
                       {component.name.charAt(0).toUpperCase() + component.name.slice(1)} Fee
-                      <span className="text-xs text-gray-400 ml-1">({component.type})</span>
+                      <span className="text-xs text-muted-foreground/80 dark:text-slate-500 ml-1">({component.type})</span>
                     </label>
                     <input
                       type="number"
@@ -1065,19 +1065,19 @@ hover:bg-[#ECFAFC] transition
                         setSummary(prev => ({ ...prev, feeComponents: updated }));
                         setFeeStructure(prev => ({ ...prev, feeComponents: updated }));
                       }}
-                      className="border border-gray-300 rounded-lg p-2 w-full text-sm"
+                      className="border border-border dark:border-slate-700 rounded-lg p-2 w-full text-sm"
                     />
                   </div>
                 ))}
 
               </div>
             ) : (
-              <p className="text-gray-400 text-sm">No fee components found. Please assign a fee structure to this student first.</p>
+              <p className="text-muted-foreground/80 dark:text-slate-500 text-sm">No fee components found. Please assign a fee structure to this student first.</p>
             )}
 
             <button
               onClick={handleFeeStructureUpdate}
-              className="bg-[#178F9E] text-white px-4 py-2 rounded-lg mt-6"
+              className="bg-primary text-white px-4 py-2 rounded-lg mt-6"
             >
               Save Changes
             </button>
@@ -1088,7 +1088,7 @@ hover:bg-[#ECFAFC] transition
 
           <section>
 
-            <h2 className="text-xl font-bold text-[#0F6F7C] mb-6">
+            <h2 className="text-xl font-bold text-primary mb-6">
               Fee Summary
             </h2>
 
@@ -1096,7 +1096,7 @@ hover:bg-[#ECFAFC] transition
 
               <Summary label="Total Assigned Fee"
                 value={summary.totalAssignedFee}
-                color="text-[#0F6F7C]"
+                color="text-primary"
               />
 
               <Summary label="Total Paid"
@@ -1111,7 +1111,7 @@ hover:bg-[#ECFAFC] transition
 
               <div>
 
-                <label className="text-sm text-gray-500">
+                <label className="text-sm text-muted-foreground dark:text-slate-400">
                   Status
                 </label>
 
@@ -1129,7 +1129,7 @@ ${summary.status === "paid"
 
             </div>
 
-            {/* ── Breakdown: One-time vs Monthly ── */}
+            {/* ———— Breakdown: One-time vs Monthly ———— */}
             {(() => {
               const oneTimeComponents = (summary.feeComponents || []).filter(
                 f => f.type === "one-time" && !["tuition", "hostel", "transport"].includes(f.name?.toLowerCase())
@@ -1166,15 +1166,15 @@ ${summary.status === "paid"
 
                   {/* One-time block */}
                   {oneTimeTotal > 0 && (
-                    <div className="rounded-xl border border-[#D9F1F4] bg-white p-4 flex flex-col gap-1">
-                      <p className="text-sm font-semibold text-[#0F6F7C]">🧾 One-Time Fees</p>
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>Total</span><span className="font-medium text-gray-700">₹{oneTimeTotal}</span>
+                    <div className="rounded-xl border border-border dark:border-slate-700 bg-card dark:bg-slate-800 p-4 flex flex-col gap-1">
+                      <p className="text-sm font-semibold text-primary">💍 One-Time Fees</p>
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400 mt-1">
+                        <span>Total</span><span className="font-medium text-foreground dark:text-slate-100">₹{oneTimeTotal}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-gray-500">
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400">
                         <span>Paid</span><span className="font-medium text-green-600">₹{oneTimePaid}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-gray-500">
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400">
                         <span>Remaining</span>
                         <span className={`font-medium ${oneTimeRemaining === 0 ? "text-green-600" : "text-red-500"}`}>
                           {oneTimeRemaining === 0 ? "✓ Fully Paid" : `₹${oneTimeRemaining}`}
@@ -1185,15 +1185,15 @@ ${summary.status === "paid"
 
                   {/* Monthly block */}
                   {monthlyTotal > 0 && (
-                    <div className="rounded-xl border border-[#D9F1F4] bg-white p-4 flex flex-col gap-1">
-                      <p className="text-sm font-semibold text-[#0F6F7C]">📅 Monthly Fees (Annual)</p>
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>Total (12 months)</span><span className="font-medium text-gray-700">₹{monthlyTotal}</span>
+                    <div className="rounded-xl border border-border dark:border-slate-700 bg-card dark:bg-slate-800 p-4 flex flex-col gap-1">
+                      <p className="text-sm font-semibold text-primary">📅 Monthly Fees (Annual)</p>
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400 mt-1">
+                        <span>Total (12 months)</span><span className="font-medium text-foreground dark:text-slate-100">₹{monthlyTotal}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-gray-500">
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400">
                         <span>Paid</span><span className="font-medium text-green-600">₹{monthlyPaid}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-gray-500">
+                      <div className="flex justify-between text-xs text-muted-foreground dark:text-slate-400">
                         <span>Remaining</span>
                         <span className={`font-medium ${monthlyRemaining === 0 ? "text-green-600" : "text-red-500"}`}>
                           {monthlyRemaining === 0 ? "✓ Fully Paid" : `₹${monthlyRemaining}`}
@@ -1220,8 +1220,8 @@ ${summary.status === "paid"
               <button
                 onClick={() => setPaymentMode("monthly")}
                 className={`px-5 py-2 rounded-lg text-sm font-medium transition ${paymentMode === "monthly"
-                  ? "bg-[#178F9E] text-white shadow"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-primary text-white shadow"
+                  : "bg-muted dark:bg-slate-800 text-muted-foreground dark:text-slate-300 hover:bg-muted/80 dark:hover:bg-slate-700"
                   }`}
               >
                 📅 Monthly Fee
@@ -1229,34 +1229,34 @@ ${summary.status === "paid"
               <button
                 onClick={() => setPaymentMode("onetime")}
                 className={`px-5 py-2 rounded-lg text-sm font-medium transition ${paymentMode === "onetime"
-                  ? "bg-[#178F9E] text-white shadow"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-primary text-white shadow"
+                  : "bg-muted dark:bg-slate-800 text-muted-foreground dark:text-slate-300 hover:bg-muted/80 dark:hover:bg-slate-700"
                   }`}
               >
-                🧾 One-Time Fees
+                💍 One-Time Fees
               </button>
             </div>
 
-            {/* ── MONTHLY PAYMENT ── */}
+            {/* ———— MONTHLY PAYMENT ———— */}
             {paymentMode === "monthly" && (
               <div className="flex flex-col gap-3">
 
                 {summary.status === "paid" || Number(summary.remainingAmount) <= 0 ? (
-                  <div className="inline-flex items-center gap-2 bg-green-50 border border-green-400 text-green-700 text-sm font-semibold px-4 py-3 rounded-lg w-fit">
+                  <div className="inline-flex items-center gap-2 bg-green-50 border border-green-400 text-green-500 text-sm font-semibold px-4 py-3 rounded-lg w-fit">
                     ✓ All fees fully paid — no payment due
                   </div>
                 ) : (
                   <>
                     {monthlyExpected > 0 && (
 
-                      <div className="inline-flex items-center gap-2 bg-[#E8F9FB] border border-[#178F9E] text-[#0F6F7C] text-sm font-medium px-4 py-2 rounded-lg w-fit">
+                      <div className="inline-flex items-center gap-2 bg-muted dark:bg-slate-800 border border-[#178F9E] text-primary text-sm font-medium px-4 py-2 rounded-lg w-fit">
                         <span>📅 Monthly Fee Required:</span>
                         <span className="font-bold text-base">₹{monthlyExpected}</span>
                       </div>
                     )}
                     {/* Full Year Payment Option */}
                     {summary.remainingAmount > 0 && (
-                      <div className="inline-flex items-center gap-2 bg-green-50 border border-green-500 text-green-700 text-sm font-medium px-4 py-2 rounded-lg w-fit mt-2">
+                      <div className="inline-flex items-center gap-2 bg-green-50 border border-green-500 text-green-500 text-sm font-medium px-4 py-2 rounded-lg w-fit mt-2">
                         <span>💰 Full Year Payment:</span>
                         <span className="font-bold text-base">₹{summary.remainingAmount}</span>
 
@@ -1271,13 +1271,13 @@ ${summary.status === "paid"
 
                     {/* Month selector with sequential enforcement */}
                     <div className="flex flex-col gap-1">
-                      <label className="text-sm text-gray-500 font-medium">Select Month</label>
+                      <label className="text-sm text-muted-foreground dark:text-slate-400 font-medium">Select Month</label>
                       <select
                         value={selectedMonth}
                         onChange={(e) => setSelectedMonth(e.target.value)}
-                        className="border border-gray-300 px-4 py-2 rounded-lg text-sm w-72 focus:ring-2 focus:ring-[#178F9E]"
+                        className="border border-border dark:border-slate-700 bg-background dark:bg-slate-900 text-foreground dark:text-slate-100 px-4 py-2 rounded-lg text-sm w-72 focus:ring-2 focus:ring-primary"
                       >
-                        <option value="">-- Select Month --</option>
+                        <option value="" className="bg-background dark:bg-slate-900">-- Select Month --</option>
                         {months.map((m, idx) => {
                           const isPaid = (summary.payments || []).some(
                             p => p.month && p.month.toLowerCase() === m.toLowerCase()
@@ -1291,7 +1291,7 @@ ${summary.status === "paid"
                           const isDisabled = isPaid || isPrevUnpaid;
                           return (
                             <option key={m} value={m} disabled={isDisabled}
-                              style={isDisabled ? { color: '#9ca3af', background: '#f3f4f6' } : {}}>
+                              className={isDisabled ? 'text-muted-foreground bg-muted dark:bg-slate-800/50' : 'text-foreground bg-background dark:bg-slate-900'}>
                               {isPaid ? `✓ ${m} (Paid)` : isPrevUnpaid ? `🔒 ${m}` : m}
                             </option>
                           );
@@ -1305,7 +1305,7 @@ ${summary.status === "paid"
                         if (firstUnpaidIdx >= 0 && selIdx > firstUnpaidIdx) {
                           return (
                             <span className="text-xs text-red-500">
-                              ⚠ Pay {months[firstUnpaidIdx]} first before paying {selectedMonth}
+                              ⚠️ Pay {months[firstUnpaidIdx]} first before paying {selectedMonth}
                             </span>
                           );
                         }
@@ -1345,7 +1345,7 @@ ${summary.status === "paid"
                           className="border rounded-lg p-3 w-72 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                         />
                         {monthlyExpected > 0 && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-muted-foreground dark:text-slate-400">
                             Enter exact amount: <strong>₹{monthlyExpected}</strong>
                           </span>
                         )}
@@ -1353,7 +1353,7 @@ ${summary.status === "paid"
 
                       <button
                         onClick={() => handlePayment()}
-                        className="bg-[#178F9E] text-white px-6 py-3 rounded-lg"
+                        className="bg-primary text-white px-6 py-3 rounded-lg"
                       >
                         Pay Monthly Fee
                       </button>
@@ -1364,38 +1364,41 @@ ${summary.status === "paid"
               </div>
             )}
 
-            {/* ── ONE-TIME PAYMENTS ── */}
+            {/* ———— ONE-TIME PAYMENTS ———— */}
             {paymentMode === "onetime" && (
               <div className="flex flex-col gap-4">
 
                 {(summary.feeComponents || []).filter(f => f.type === "one-time" && !["tuition", "hostel", "transport"].includes(f.name?.toLowerCase())).length === 0 && (
-                  <p className="text-gray-400 text-sm">No one-time fee components found in fee structure.</p>
+                  <p className="text-muted-foreground/80 dark:text-slate-500 text-sm">No one-time fee components found in fee structure.</p>
                 )}
 
                 <div className="grid grid-cols-2 gap-4 max-w-xl">
                   {(summary.feeComponents || [])
                     .filter(f => f.type === "one-time" && !["tuition", "hostel", "transport"].includes(f.name?.toLowerCase()))
-                    .map((comp, idx) => (
-                      <div key={idx} className="border border-[#D9F1F4] rounded-xl p-4 bg-[#F4FDFE] flex flex-col gap-2">
+                    .map((comp, idx) => {
+                      const isCompPaid = paidOneTimeComponents.has(comp.name.toLowerCase());
+                      return (
+                      <div key={idx} className="border border-border dark:border-slate-700 rounded-xl p-4 bg-background dark:bg-slate-900 flex flex-col gap-2">
                         <div className="flex justify-between items-center">
-                          <span className="font-semibold text-[#0F6F7C] capitalize">{comp.name} Fee</span>
-                          <span className="text-lg font-bold text-gray-800">₹{comp.amount}</span>
+                          <span className="font-semibold text-primary capitalize">{comp.name} Fee</span>
+                          <span className="text-lg font-bold text-foreground dark:text-slate-100">₹{comp.amount}</span>
                         </div>
-                        <span className="text-xs text-gray-400">One-time payment</span>
-                        {paidOneTimeComponents.has(comp.name.toLowerCase()) ? (
-                          <div className="bg-green-100 text-green-700 text-sm py-2 rounded-lg mt-1 text-center font-medium">
+                        <span className="text-xs text-muted-foreground/80 dark:text-slate-500">One-time payment</span>
+                        {isCompPaid ? (
+                          <div className="bg-green-500/10 text-green-500 text-sm py-2 rounded-lg mt-1 text-center font-medium">
                             ✓ Paid
                           </div>
                         ) : (
                           <button
                             onClick={() => handlePayment(comp.amount, "onetime", comp.name)}
-                            className="bg-[#178F9E] text-white text-sm py-2 rounded-lg mt-1 hover:bg-[#0F6F7C] transition"
+                            className="bg-primary text-white text-sm py-2 rounded-lg mt-1 hover:bg-primary/90 transition"
                           >
                             Pay ₹{comp.amount}
                           </button>
                         )}
                       </div>
-                    ))}
+                      );
+                    })}
                 </div>
 
               </div>
@@ -1404,11 +1407,11 @@ ${summary.status === "paid"
           </section>
 
 
-          {/* ---------------- Monthly Fee Status ---------------- */}
+          {/* ———— Monthly Fee Status ———— */}
 
           <section>
 
-            <h2 className="text-xl font-bold text-[#0F6F7C] mb-6">
+            <h2 className="text-xl font-bold text-primary mb-6">
               Monthly Fee Status (Session: April - March)
             </h2>
 
@@ -1485,7 +1488,7 @@ function Input({ label, value }) {
 
     <div>
 
-      <label className="text-sm text-gray-500">
+      <label className="text-sm text-muted-foreground dark:text-slate-400">
         {label}
       </label>
 
@@ -1507,7 +1510,7 @@ function EditableInput({ label, value, onChange }) {
 
     <div>
 
-      <label className="text-sm text-gray-500 flex gap-1">
+      <label className="text-sm text-muted-foreground dark:text-slate-400 flex gap-1">
         <Pencil size={15} />
         {label}
       </label>
@@ -1517,7 +1520,7 @@ function EditableInput({ label, value, onChange }) {
         type="number"
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full border border-gray-300 focus:border-[#178F9E] focus:ring-1 focus:ring-[#178F9E] p-3 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="w-full border border-border dark:border-slate-700 focus:border-[#178F9E] focus:ring-1 focus:ring-[#178F9E] p-3 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
 
     </div>
@@ -1532,7 +1535,7 @@ function Summary({ label, value, color }) {
 
     <div>
 
-      <label className="text-sm text-gray-500">
+      <label className="text-sm text-muted-foreground dark:text-slate-400">
         {label}
       </label>
 

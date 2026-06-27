@@ -31,7 +31,7 @@ export default function LoginPage() {
         <img
           src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg"
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
     </div>

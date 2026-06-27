@@ -446,128 +446,7 @@ useEffect(() => {
   </div>
 </section>
 
-      {/* Popular Courses */}
-<section className="py-24 bg-[#F4FDFE] overflow-hidden">
-  <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-    {/* Heading */}
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      viewport={{ once: true }}
-      className="text-center mb-20"
-    >
-      <h2 className="text-3xl md:text-5xl text-[#283618] font-bold mb-4">
-        Popular Courses
-      </h2>
-      <p className="text-base md:text-xl text-[#606C38] max-w-2xl mx-auto">
-        Start learning with our most popular courses
-      </p>
-    </motion.div>
-
-    {/* Premium Course Grid */}
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.15 } }
-      }}
-      className="grid grid-cols-3 gap-4 md:gap-10"
-    >
-      {courses.map((item) => (
-        <motion.div
-          key={item.id}
-          variants={{
-            hidden: { opacity: 0, y: 60, filter: "blur(8px)" },
-            visible: { opacity: 1, y: 0, filter: "blur(0px)" }
-          }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="group"
-        >
-          {/* Image */}
-          <div className="relative overflow-hidden rounded-xl mb-6">
-            <motion.img
-              src={item.img}
-              alt={item.title}
-              className="w-full h-28 md:h-56 object-cover"
-              whileHover={{ scale: 1.08 }}
-              transition={{ duration: 0.6 }}
-            />
-          </div>
-
-          {/* Category & Rating */}
-          <div className="flex justify-between items-center mb-3 text-[10px] md:text-sm">
-            <span className="text-teal-500 font-medium uppercase tracking-wide">
-              {item.category}
-            </span>
-
-            <div className="flex items-center text-teal-500">
-              <Star className="h-3 w-3 md:h-4 md:w-4 fill-current" />
-              <span className="ml-1 text-teal-600">{item.rating}</span>
-            </div>
-          </div>
-
-          {/* Title */}
-          <h3 className="text-sm md:text-xl font-bold text-cyan-700 mb-3 leading-snug">
-            {item.title}
-          </h3>
-
-          {/* Divider */}
-          <div className="w-8 h-[2px] bg-cyan-500 mb-4 transition-all duration-500 group-hover:w-16" />
-
-          {/* Meta */}
-          <div className="flex justify-between text-[10px] md:text-sm text-[#606C38] mb-4">
-            <span className="flex items-center">
-              <BookOpen className="h-3 w-3 md:h-4 md:w-4 mr-1 text-teal-500" />
-              {item.lessons}
-            </span>
-
-            <span className="flex items-center">
-              <Clock className="h-3 w-3 md:h-4 md:w-4 mr-1 text-teal-500" />
-              {item.duration}
-            </span>
-          </div>
-
-          {/* Bottom */}
-          <div className="flex justify-between items-center text-xs md:text-base">
-            <span className="text-[#283618] font-bold">
-              ${item.price}
-            </span>
-
-            <motion.button
-              whileHover={{ x: 5 }}
-              transition={{ duration: 0.3 }}
-              className="text-cyan-600 flex items-center font-medium"
-            >
-              Enroll <ChevronRight className="h-3 w-3 md:h-4 md:w-4 ml-1" />
-            </motion.button>
-          </div>
-
-        </motion.div>
-      ))}
-    </motion.div>
-
-    {/* CTA */}
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      viewport={{ once: true }}
-      className="text-center mt-20"
-    >
-      <Link
-        href="/"
-        className="inline-block px-6 md:px-8 py-2 md:py-3 text-sm md:text-base border border-[#178F9E] text-[#178F9E] rounded-full hover:bg-cyan-800 hover:text-white transition-all duration-500"
-      >
-        View All Courses
-      </Link>
-    </motion.div>
-
-  </div>
-</section>
 
 
 {/* Proud Moments - Collage Design */}
@@ -898,13 +777,13 @@ useEffect(() => {
 
 
 {/* CTA Section */}
-<section className="py-20 bg-cyan-100/20">
+<section className="py-20 bg-cyan-100/20 dark:bg-slate-900/50">
   <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 className="text-3xl font-bold mb-6 text-[#283618]">
+    <h2 className="text-3xl font-bold mb-6 text-[#283618] dark:text-slate-100">
       Ready to Start Learning?
     </h2>
 
-    <p className="text-xl text-[#606C38] mb-8">
+    <p className="text-xl text-[#606C38] dark:text-slate-300 mb-8">
       Join thousands of students advancing their careers with our courses
     </p>
 

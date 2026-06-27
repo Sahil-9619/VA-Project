@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import {
   Search, Banknote, Receipt, Lock, Unlock,
   GraduationCap, Building, Bus, FileText, Clock, Pencil, Save,
-  CheckCircle2
+  CheckCircle2, Plus, X
 } from "lucide-react";
 
 export default function ClassFeeManagement() {
@@ -89,6 +89,7 @@ export default function ClassFeeManagement() {
         setHostelFee("");
         setTransportFee("");
         setLateFeePerDay("");
+        setExtraComponents([]);
         setDataFetched(true);
         setEditing(true); // Auto-unlock for new entries
       } finally {
@@ -228,7 +229,6 @@ export default function ClassFeeManagement() {
       setValue: setTransportFee,
       icon: Bus,
     },
-
     // EXTRA COMPONENTS ADD HERE
     ...extraComponents.map((comp, index) => ({
       label: comp.name || "Custom Fee",
@@ -239,38 +239,39 @@ export default function ClassFeeManagement() {
       index,
     })),
   ];
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-white flex flex-col md:flex-row font-sans border-t border-slate-100 overflow-hidden">
+    <div className="min-h-[calc(100vh-4rem)] bg-transparent flex flex-col md:flex-row font-sans border-t border-border dark:border-slate-700 overflow-hidden">
 
       {/* ====================================================
           LEFT PANE: DIRECTORY
           ==================================================== */}
-      <div className={`w-full md:w-[320px] lg:w-[380px] flex-shrink-0 flex flex-col border-r border-slate-200 bg-slate-50/50 ${classId ? 'hidden md:flex' : 'flex'}`}>
+      <div className={`w-full md:w-[300px] lg:w-[320px] flex-shrink-0 flex flex-col border-r border-border dark:border-slate-700 bg-card dark:bg-slate-800 ${classId ? 'hidden md:flex' : 'flex'}`}>
 
         {/* Header & Search */}
-        <div className="p-6 md:p-8 pb-4">
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 mb-6 flex items-center gap-3">
-            <Banknote className="w-6 h-6 text-[#178F9E]" />
+        <div className="p-4 md:p-6 pb-4">
+          <h1 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2 mb-4">
+            <Banknote className="w-5 h-5 text-primary" />
             Fee Management
           </h1>
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-[#178F9E] transition-colors" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <input
               type="text"
               placeholder="Search classes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-200 focus:border-[#178F9E] focus:ring-4 focus:ring-[#178F9E]/10 rounded-xl py-3 pl-11 pr-4 text-sm font-medium outline-none transition-all placeholder:text-slate-400 shadow-sm"
+              className="w-full bg-background dark:bg-slate-900 border border-border dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg py-2 pl-9 pr-3 text-sm outline-none transition-all placeholder:text-muted-foreground shadow-sm text-foreground dark:text-slate-200"
             />
           </div>
         </div>
 
         {/* Flat List */}
-        <div className="flex-1 overflow-y-auto px-4 pb-8 space-y-1">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-4">Select Class Ledger</h3>
+        <div className="flex-1 overflow-y-auto px-2 pb-8 space-y-1 hide-scrollbar">
+          <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2 px-3">Class Ledgers</h3>
 
           {sortedClasses.length === 0 ? (
-            <div className="text-center p-6 text-slate-400 text-sm font-medium">
+            <div className="text-center p-6 text-muted-foreground text-xs">
               No classes found.
             </div>
           ) : (
@@ -280,17 +281,14 @@ export default function ClassFeeManagement() {
                 <button
                   key={cls._id}
                   onClick={() => setClassId(cls._id)}
-                  className={`w-full text-left flex items-center justify-between px-5 py-3.5 rounded-xl transition-all relative ${isActive
-                    ? "bg-[#178F9E] text-white shadow-md shadow-[#178F9E]/20"
-                    : "hover:bg-slate-200/50 text-slate-600 hover:text-slate-900"
+                  className={`w-full text-left flex items-center justify-between px-3 py-2 rounded-md transition-all text-sm ${
+                    isActive
+                      ? "bg-primary text-primary-foreground font-medium shadow-sm"
+                      : "hover:bg-muted dark:hover:bg-slate-700 text-foreground dark:text-slate-300 hover:text-foreground"
                     }`}
                 >
-                  <span className="text-base font-bold">
-                    Class {cls.className}
-                  </span>
-                  {!isActive && (
-                    <Receipt className="w-4 h-4 text-slate-300" />
-                  )}
+                  <span>Class {cls.className}</span>
+                  {!isActive && <Receipt className="w-3.5 h-3.5 text-muted-foreground opacity-50" />}
                 </button>
               );
             })
@@ -301,112 +299,124 @@ export default function ClassFeeManagement() {
       {/* ====================================================
           RIGHT PANE: INVOICE/LEDGER VIEW
           ==================================================== */}
-      <div className={`flex-1 flex flex-col bg-white relative min-w-0 ${!classId ? 'hidden md:flex' : 'flex'}`}>
+      <div className={`flex-1 flex flex-col bg-background dark:bg-slate-900 relative min-w-0 ${!classId ? 'hidden md:flex' : 'flex'}`}>
 
         {classId ? (
           <>
             {/* Mobile Back Button */}
-            <div className="md:hidden p-4 border-b border-slate-100 flex items-center flex-shrink-0">
+            <div className="md:hidden p-3 border-b border-border dark:border-slate-700 flex items-center flex-shrink-0 bg-card dark:bg-slate-800">
               <button
                 onClick={() => setClassId("")}
-                className="text-sm bg-cyan-800 text-white p-2 rounded-xl font-bold text-slate-500 hover:text-slate-900 flex items-center gap-2 mt-5"
+                className="text-xs bg-muted dark:bg-slate-700 text-foreground px-3 py-1.5 rounded-md font-medium hover:bg-accent transition-colors"
               >
-                ← Back to Class List
+                ← Back to List
               </button>
             </div>
 
             {loading ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
-                <div className="w-10 h-10 border-4 border-slate-100 border-t-[#178F9E] rounded-full animate-spin mb-4"></div>
-                <p className="font-semibold tracking-wide">Retrieving ledger data...</p>
+              <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
+                <div className="w-6 h-6 border-2 border-muted border-t-primary rounded-full animate-spin mb-3"></div>
+                <p className="text-sm">Loading ledger data...</p>
               </div>
             ) : (
               <div className="flex-1 flex flex-col h-full overflow-hidden">
 
                 {/* Ledger Header */}
-                <div className="px-8 md:px-16 pt-12 pb-8 border-b border-slate-100 flex-shrink-0 flex items-end justify-between">
+                <div className="px-6 py-6 border-b border-border dark:border-slate-700/50 flex-shrink-0 flex flex-col sm:flex-row sm:items-end justify-between gap-4 bg-card/50 dark:bg-slate-800/50">
                   <div className="min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 ${editing ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 ${editing ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20' : 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'}`}>
                         {editing ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
-                        {editing ? "Editing Mode" : "Locked & Active"}
+                        {editing ? "Editing Mode" : "Locked"}
                       </span>
                     </div>
-                    {/* Academic Session has been removed, only showing the Class Name */}
-                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight truncate">
-                      Class {String(classes.find((c) => c._id === classId)?.className ?? "")}
+                    <h1 className="text-2xl font-bold text-foreground dark:text-slate-100 tracking-tight truncate">
+                      Class {String(classes.find((c) => c._id === classId)?.className ?? "")} Ledger
                     </h1>
                   </div>
 
                   {!editing && (
                     <button
                       onClick={() => setEditing(true)}
-                      className="hidden sm:flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-[#178F9E] bg-slate-50 hover:bg-[#178F9E]/10 px-4 py-2.5 rounded-xl transition-colors flex-shrink-0"
+                      className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-foreground bg-card hover:bg-muted dark:bg-slate-800 dark:hover:bg-slate-700 border border-border dark:border-slate-600 px-3 py-1.5 rounded-md transition-colors shadow-sm"
                     >
-                      <Pencil className="w-4 h-4" /> Edit Ledger
+                      <Pencil className="w-3.5 h-3.5" /> Edit Ledger
                     </button>
                   )}
                 </div>
 
-                {allComponents.map((comp, i) => (
-                  <div key={i} className="relative">
-
-                    <LedgerRow
-                      icon={comp.icon}
-                      label={comp.label}
-                      value={comp.value}
-                      setValue={comp.setValue}
-                      disabled={!editing}
-                    />
-
-                    {/* Extra name edit */}
-                    {editing && comp.isExtra && (
-                      <input
-                        value={extraComponents[comp.index].name}
-                        onChange={(e) =>
-                          updateComponent(comp.index, "name", e.target.value)
-                        }
-                        placeholder="Component Name"
-                        className="ml-14 mt-1 border px-2 py-1 rounded text-sm"
+                <div className="flex-1 overflow-y-auto px-4 py-4 md:px-8 space-y-2 relative hide-scrollbar">
+                  {allComponents.map((comp, i) => (
+                    <div key={i} className="relative group">
+                      <LedgerRow
+                        icon={comp.icon}
+                        label={comp.label}
+                        value={comp.value}
+                        setValue={comp.setValue}
+                        disabled={!editing}
                       />
-                    )}
 
-                    {/* Remove button */}
-                    {editing && comp.isExtra && (
-                      <button
-                        onClick={() => removeComponent(comp.index)}
-                        className="absolute right-0 top-2 text-red-500"
-                      >
-                        ✕
-                      </button>
-                    )}
+                      {/* Extra name edit overlay */}
+                      {editing && comp.isExtra && (
+                        <div className="absolute left-14 top-1/2 -translate-y-1/2 flex items-center gap-2 bg-background dark:bg-slate-900 pr-2">
+                           <input
+                            value={extraComponents[comp.index].name}
+                            onChange={(e) =>
+                              updateComponent(comp.index, "name", e.target.value)
+                            }
+                            placeholder="Fee Name..."
+                            className="w-32 bg-background dark:bg-slate-900 border border-border dark:border-slate-700 focus:border-primary rounded px-2 py-1 text-xs outline-none text-foreground dark:text-slate-200"
+                          />
+                        </div>
+                      )}
+
+                      {/* Remove button */}
+                      {editing && comp.isExtra && (
+                        <button
+                          onClick={() => removeComponent(comp.index)}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-destructive/10 text-destructive rounded hover:bg-destructive/20 transition-colors opacity-0 group-hover:opacity-100"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Late Fee Component */}
+                  <div className="mt-4 pt-4 border-t border-border/50 dark:border-slate-700/50">
+                    <LedgerRow
+                      icon={Clock}
+                      label="Late Fee (Per Day)"
+                      value={lateFeePerDay}
+                      setValue={setLateFeePerDay}
+                      disabled={!editing}
+                      isPenalty={true}
+                    />
                   </div>
-                ))}
-                {editing && (
-                  <button
-                    onClick={addComponent}
-                    className="mt-3 text-sm text-blue-600 font-bold"
-                  >
-                    + Add Fee Component
-                  </button>
-                )}
+
+                  {editing && (
+                    <button
+                      onClick={addComponent}
+                      className="mt-4 flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors px-2 py-1 rounded hover:bg-primary/10"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Add Custom Component
+                    </button>
+                  )}
+                </div>
 
                 {/* Sticky Summary & Save Footer */}
-                <div className="bg-slate-900 border-t border-slate-200 px-8 md:px-16 py-6 flex flex-col sm:flex-row items-center justify-between gap-6 flex-shrink-0 min-w-0">
-                  <div className="flex items-center gap-6 min-w-0">
-                    <div className="hidden sm:flex w-12 h-12 rounded-full bg-white/10 items-center justify-center text-white flex-shrink-0">
-                      <Banknote className="w-6 h-6" />
+                <div className="bg-card dark:bg-slate-800 border-t border-border dark:border-slate-700 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <Banknote className="w-5 h-5" />
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1 truncate">
-                        Calculated Total
+                    <div>
+                      <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mb-0.5">
+                        Total Base Fee
                       </p>
-                      <div className="flex items-baseline min-w-0">
-                        <span className="text-3xl font-black text-white tracking-tight mr-1">₹</span>
-                        <p
-                          className="text-3xl font-black text-white tracking-tight truncate max-w-[180px] md:max-w-[250px]"
-                          title={totalFee.toLocaleString('en-IN')}
-                        >
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xl font-bold text-foreground dark:text-slate-100 tracking-tight">₹</span>
+                        <p className="text-2xl font-black text-foreground dark:text-slate-100 tracking-tight" title={totalFee.toLocaleString('en-IN')}>
                           {totalFee.toLocaleString('en-IN')}
                         </p>
                       </div>
@@ -414,29 +424,29 @@ export default function ClassFeeManagement() {
                   </div>
 
                   {editing ? (
-                    <div className="flex gap-3 w-full sm:w-auto flex-shrink-0">
+                    <div className="flex gap-2 w-full sm:w-auto">
                       <button
                         onClick={() => {
                           setEditing(false);
                           setClassId(classId); // re-trigger fetch
                         }}
-                        className="flex-1 sm:flex-none px-6 py-3.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+                        className="flex-1 sm:flex-none px-4 py-2 text-xs font-medium rounded-md border border-border dark:border-slate-600 bg-background dark:bg-slate-900 text-foreground hover:bg-muted dark:hover:bg-slate-700 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={updateFee}
-                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-white bg-[#178F9E] hover:bg-[#0F6F7C] shadow-lg shadow-[#178F9E]/30 transition-all"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-6 py-2 rounded-md text-xs font-medium bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
                       >
-                        <Save className="w-5 h-5" /> Save Ledger
+                        <Save className="w-3.5 h-3.5" /> Save
                       </button>
                     </div>
                   ) : (
                     <button
                       onClick={() => setEditing(true)}
-                      className="sm:hidden w-full flex items-center justify-center gap-2 text-base font-bold text-slate-900 bg-white border border-slate-200 px-6 py-3.5 rounded-xl transition-colors"
+                      className="sm:hidden w-full flex items-center justify-center gap-2 text-xs font-medium bg-card border border-border px-4 py-2 rounded-md"
                     >
-                      <Pencil className="w-5 h-5" /> Edit Ledger
+                      <Pencil className="w-4 h-4" /> Edit
                     </button>
                   )}
                 </div>
@@ -446,13 +456,13 @@ export default function ClassFeeManagement() {
           </>
         ) : (
           /* EMPTY STATE */
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-slate-50/30">
-            <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mb-6 text-slate-300">
-              <Receipt className="w-10 h-10" />
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <div className="w-16 h-16 rounded-full bg-muted dark:bg-slate-800 flex items-center justify-center mb-4 text-muted-foreground opacity-50">
+              <Receipt className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">No Class Selected</h3>
-            <p className="text-slate-500 font-medium max-w-sm">
-              Please select a class from the directory on the left to view, manage, and configure its financial ledger.
+            <h3 className="text-lg font-semibold text-foreground dark:text-slate-200 mb-1">No Ledger Selected</h3>
+            <p className="text-xs text-muted-foreground max-w-[250px]">
+              Select a class from the sidebar to manage its fee structure.
             </p>
           </div>
         )}
@@ -466,34 +476,27 @@ export default function ClassFeeManagement() {
    ========================================================= */
 function LedgerRow({ icon: Icon, label, value, setValue, disabled, isPenalty = false }) {
   return (
-    <div className="group flex flex-col sm:flex-row sm:items-center justify-between py-3 sm:py-2 gap-2 sm:gap-6 rounded-xl transition-colors hover:bg-slate-50 focus-within:bg-slate-50 px-2 sm:px-4 -mx-2 sm:-mx-4">
-
+    <div className="group flex flex-col sm:flex-row sm:items-center justify-between py-2 px-2 sm:px-3 gap-2 rounded-lg transition-colors hover:bg-muted/50 dark:hover:bg-slate-800/50">
+      
       {/* Label Side */}
-      <div className="flex items-center gap-4 flex-1 min-w-0">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${disabled ? 'bg-slate-100 text-slate-400' : isPenalty ? 'bg-rose-50 text-rose-500' : 'bg-[#178F9E]/10 text-[#178F9E]'
-          }`}>
-          <Icon className="w-5 h-5" />
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
+          disabled ? 'bg-muted dark:bg-slate-800 text-muted-foreground' : 
+          isPenalty ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'
+        }`}>
+          <Icon className="w-4 h-4" />
         </div>
-        {/* FIX: Removed 'truncate' so long text fully displays and wraps normally */}
-        <span className={`text-base font-bold whitespace-normal leading-tight ${isPenalty ? 'text-rose-600' : 'text-slate-700'}`}>
+        <span className={`text-sm font-medium ${isPenalty ? 'text-destructive' : 'text-foreground dark:text-slate-200'}`}>
           {label}
         </span>
-        {/* Decorative Dotted Line filler */}
-        <div className="hidden sm:block flex-1 border-b-2 border-dotted border-slate-200 mx-4 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"></div>
+        <div className="hidden sm:block flex-1 border-b border-dashed border-border/50 mx-2 opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
 
       {/* Input Side */}
-      <div className="relative flex items-center w-full sm:w-48 flex-shrink-0 min-w-0">
-        <span className={`absolute left-4 font-black text-lg ${disabled ? 'text-slate-400' : isPenalty ? 'text-rose-500' : 'text-slate-900'}`}>
+      <div className="relative flex items-center w-full sm:w-36 flex-shrink-0">
+        <span className={`absolute left-3 font-semibold text-sm ${disabled ? 'text-muted-foreground' : isPenalty ? 'text-destructive' : 'text-foreground dark:text-slate-300'}`}>
           ₹
         </span>
-
-        {/* INPUT FIXES:
-            1. No arrows: [appearance:textfield] & webkit-outer-spin-button hides browser arrows.
-            2. No scrolling: onWheel={(e) => e.target.blur()} prevents mouse scroll changing values.
-            3. No negatives: onKeyDown explicitly blocks '-', '+', 'e', 'E'.
-            4. No blowouts: Internal scrolling inside the input (via flex-shrink-0 min-w-0 on parent).
-        */}
         <input
           type="number"
           min="0"
@@ -502,21 +505,21 @@ function LedgerRow({ icon: Icon, label, value, setValue, disabled, isPenalty = f
           placeholder="0"
           onWheel={(e) => e.target.blur()}
           onKeyDown={(e) => {
-            if (['-', '+', 'e', 'E'].includes(e.key)) {
-              e.preventDefault();
-            }
+            if (['-', '+', 'e', 'E'].includes(e.key)) e.preventDefault();
           }}
           onChange={(e) => {
             const val = e.target.value;
-            // Strict check to prevent any accidental negative pastes
-            if (val === "" || Number(val) >= 0) {
-              setValue(val);
-            }
+            if (val === "" || Number(val) >= 0) setValue(val);
           }}
-          className={`w-full min-w-0 pl-9 pr-4 py-2.5 text-right text-xl font-black font-mono rounded-xl outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${disabled
-            ? 'bg-transparent text-slate-500 cursor-not-allowed'
-            : `bg-white border-2 shadow-sm ${isPenalty ? 'border-rose-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 text-rose-700' : 'border-slate-200 focus:border-[#178F9E] focus:ring-4 focus:ring-[#178F9E]/10 text-[#178F9E] hover:border-slate-300'}`
-            }`}
+          className={`w-full pl-8 pr-3 py-1.5 text-right text-sm font-semibold rounded-md outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+            disabled
+              ? 'bg-transparent text-muted-foreground cursor-not-allowed border-transparent'
+              : `bg-background dark:bg-slate-900 border shadow-sm ${
+                  isPenalty 
+                    ? 'border-destructive/30 focus:border-destructive focus:ring-1 focus:ring-destructive text-destructive' 
+                    : 'border-border dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary text-foreground dark:text-slate-100'
+                }`
+          }`}
         />
       </div>
     </div>
