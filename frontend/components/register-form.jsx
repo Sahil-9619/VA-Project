@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -32,6 +33,7 @@ export function RegisterForm({ className, ...props }) {
   const [errors, setErrors] = useState({});
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(undefined);
+  const [showPassword, setShowPassword] = useState(false);
 
 
   useEffect(() => {
@@ -272,21 +274,42 @@ return (
                 </>
               ) : (
                 <>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    type={field.type || "text"}
-                    placeholder={field.placeholder}
-                    onChange={handleInputChange}
-                    inputMode={
-                      field.name === "phone" ? "numeric" : undefined
-                    }
-                    className={
-                      errors[field.name]
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : ""
-                    }
-                  />
+                  <div className="relative">
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      type={
+                        field.name === "password"
+                          ? showPassword
+                            ? "text"
+                            : "password"
+                          : field.type || "text"
+                      }
+                      placeholder={field.placeholder}
+                      onChange={handleInputChange}
+                      inputMode={
+                        field.name === "phone" ? "numeric" : undefined
+                      }
+                      className={
+                        errors[field.name]
+                          ? "border-red-500 focus-visible:ring-red-500 pr-10"
+                          : "pr-10"
+                      }
+                    />
+                    {field.name === "password" && (
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    )}
+                  </div>
 
                   {errors[field.name] && (
                     <p className="text-red-500 text-sm">

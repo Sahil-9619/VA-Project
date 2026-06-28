@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   Bell,
@@ -177,7 +178,7 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-50 font-sans">
+      <div className="flex h-screen items-center justify-center bg-white font-sans">
         <div className="flex flex-col items-center gap-4">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#0E94A5] border-t-transparent"></div>
           <p className="text-gray-500 font-medium animate-pulse">
@@ -193,7 +194,7 @@ const App = () => {
     user?.email?.split("@")[0] ||
     "User";
   return (
-    <div className="min-h-screen bg-[#F8FAFB] bg-cyan-100/20 text-slate-900 font-sans pb-12">
+    <div className="min-h-screen bg-white text-slate-900 font-sans pb-12">
       <div className="mt-10  md:mt-14">
         {/* Header Greeting */}
         <header className=" flex flex-col md:flex-row md:items-end justify-between gap-4 px-6 py-6 bg-gradient-to-r from-[#0A6B78] via-[#0E94A5] to-[#0A6B78] text-white shadow-sm">

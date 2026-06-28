@@ -348,10 +348,10 @@ export default function ClassWiseStudents() {
         </div>
 
         {/* DATA TABLE */}
-        <div className="bg-card dark:bg-slate-800 border border-border dark:border-slate-700 shadow-sm rounded-lg overflow-hidden flex flex-col">
+        <div className="bg-card border border-border shadow-sm rounded-lg overflow-hidden flex flex-col">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-primary dark:bg-slate-900 text-primary-foreground dark:text-slate-100 border-b border-primary/20 dark:border-slate-700">
+              <thead className="bg-primary text-primary-foreground border-b border-primary/20">
                 <tr>
                   <th className="px-4 py-3 font-medium">Adm. No</th>
                   <th className="px-4 py-3 font-medium">Student Name</th>
@@ -389,7 +389,7 @@ export default function ClassWiseStudents() {
                   currentStudents.map((student) => (
                     <tr 
                       key={student._id}
-                      className={`hover:bg-muted/50 dark:hover:bg-slate-700/50 transition-colors group border-b border-border/50 dark:border-slate-700/50 last:border-0 ${highlightId === student._id ? "bg-primary/10" : "bg-transparent"}`}
+                      className={`hover:bg-muted/50 transition-colors group border-b border-border/50 last:border-0 ${highlightId === student._id ? "bg-primary/10" : "bg-transparent"}`}
                     >
                       <td className="px-4 py-3 font-medium text-foreground">
                         {student.admissionNumber || "—"}
@@ -494,7 +494,7 @@ export default function ClassWiseStudents() {
           
           {/* PAGINATION FOOTER */}
           {currentStudents.length > 0 && (
-            <div className="border-t border-border dark:border-slate-700 bg-muted/20 dark:bg-slate-900/50 px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="border-t border-border bg-muted/20 px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span>Rows per page:</span>
                 <Select
@@ -504,10 +504,10 @@ export default function ClassWiseStudents() {
                     setCurrentPage(1);
                   }}
                 >
-                  <SelectTrigger className="h-7 border-border dark:border-slate-700 bg-background dark:bg-slate-900 rounded px-2 text-xs w-[70px] text-foreground dark:text-slate-100">
+                  <SelectTrigger className="h-7 border-border bg-background rounded px-2 text-xs w-[70px] text-foreground">
                     <SelectValue placeholder="10" />
                   </SelectTrigger>
-                  <SelectContent className="bg-popover dark:bg-slate-800 border-border dark:border-slate-700 text-foreground dark:text-slate-100 text-xs shadow-md">
+                  <SelectContent className="bg-popover border-border text-foreground text-xs shadow-md">
                     <SelectItem value="10" className="text-xs">10</SelectItem>
                     <SelectItem value="25" className="text-xs">25</SelectItem>
                     <SelectItem value="50" className="text-xs">50</SelectItem>
@@ -520,7 +520,7 @@ export default function ClassWiseStudents() {
                 <PaginationContent className="gap-1">
                   <PaginationItem>
                     <PaginationPrevious
-                      className={`h-8 px-2.5 text-xs text-black dark:text-white rounded-md border border-border ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-muted"}`}
+                      className={`h-8 px-2.5 text-xs text-foreground rounded-md border border-border ${currentPage === 1 ? "pointer-events-none opacity-50" : "hover:bg-muted"}`}
                       onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     />
                   </PaginationItem>
@@ -528,7 +528,7 @@ export default function ClassWiseStudents() {
                   {visiblePages.map((page) => (
                     <PaginationItem key={page}>
                       <PaginationLink
-                        className={`h-8 w-8 text-xs text-black dark:text-white rounded-md border border-border ${
+                        className={`h-8 w-8 text-xs text-foreground rounded-md border border-border ${
                           currentPage === page 
                           ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90" 
                           : "hover:bg-muted"
@@ -549,7 +549,7 @@ export default function ClassWiseStudents() {
                   {totalPages > 6 && !visiblePages.includes(totalPages) && (
                     <PaginationItem>
                       <PaginationLink
-                        className={`h-8 w-8 text-xs text-black dark:text-white rounded-md border border-border ${
+                        className={`h-8 w-8 text-xs text-foreground rounded-md border border-border ${
                           currentPage === totalPages 
                           ? "bg-primary text-primary-foreground border-primary" 
                           : "hover:bg-muted"
@@ -563,7 +563,7 @@ export default function ClassWiseStudents() {
 
                   <PaginationItem>
                     <PaginationNext
-                      className={`h-8 px-2.5 text-xs text-black dark:text-white rounded-md border border-border ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-muted"}`}
+                      className={`h-8 px-2.5 text-xs text-foreground rounded-md border border-border ${currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:bg-muted"}`}
                       onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                     />
                   </PaginationItem>

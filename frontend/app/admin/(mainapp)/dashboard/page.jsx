@@ -6,6 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   PieChart,
   Pie,
   Cell,
@@ -18,6 +26,9 @@ import {
   CartesianGrid,
   LineChart,
   Line,
+  AreaChart,
+  Area,
+  Legend,
 } from "recharts";
 import {
   BookOpen,
@@ -252,21 +263,32 @@ const AdminDashboard = () => {
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="pt-6">
-              <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--admin-border)" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
-                  <YAxis tick={{ fontSize: 12, fill: "var(--admin-text)" }} axisLine={{ stroke: "var(--admin-border)" }} />
+            <CardContent className="pt-4 pb-2">
+              <ResponsiveContainer width="100%" height={160}>
+                <BarChart data={revenueData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }} barGap={2} barSize={12}>
+                  <defs>
+                    <linearGradient id="barExpected" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#818cf8" stopOpacity={1}/>
+                      <stop offset="100%" stopColor="#818cf8" stopOpacity={0.6}/>
+                    </linearGradient>
+                    <linearGradient id="barCollected" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#34d399" stopOpacity={1}/>
+                      <stop offset="100%" stopColor="#34d399" stopOpacity={0.6}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--admin-border)" strokeOpacity={0.5} />
+                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: "var(--admin-text)" }} axisLine={false} tickLine={false} dy={10} />
+                  <YAxis tick={{ fontSize: 11, fill: "var(--admin-text)" }} axisLine={false} tickLine={false} dx={-10} tickFormatter={(value) => `₹${value}`} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: "var(--admin-card)", borderColor: "var(--admin-border)", borderRadius: "8px" }} 
-                    itemStyle={{ color: "var(--admin-text)" }} 
-                    labelStyle={{ color: "var(--admin-text)" }} 
+                    contentStyle={{ backgroundColor: "var(--admin-card)", borderColor: "var(--admin-border)", borderRadius: "12px", boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }} 
+                    itemStyle={{ color: "var(--admin-text)", fontWeight: "500", fontSize: "13px" }} 
+                    labelStyle={{ color: "var(--admin-text)", marginBottom: "4px", fontWeight: "bold", fontSize: "14px" }} 
+                    cursor={{ fill: "var(--admin-border)", opacity: 0.2 }}
                   />
-                  <Line type="monotone" dataKey="expected" stroke="#818cf8" strokeWidth={2} name="Expected" />
-                  <Line type="monotone" dataKey="collected" stroke="#34d399" strokeWidth={2} name="Collected" />
-                  <Line type="monotone" dataKey="pending" stroke="#f87171" strokeWidth={2} name="Pending" />
-                </LineChart>
+                  <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+                  <Bar dataKey="expected" fill="url(#barExpected)" name="Expected" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="collected" fill="url(#barCollected)" name="Collected" radius={[4, 4, 0, 0]} />
+                </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
@@ -280,19 +302,22 @@ const AdminDashboard = () => {
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="pt-6">
-              <ResponsiveContainer width="100%" height={280}>
+            <CardContent className="pt-4 pb-2 relative">
+              <ResponsiveContainer width="100%" height={160}>
                 <PieChart>
                   <Pie
                     data={enrollmentsPieData}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
-                    cy="50%"
-                    outerRadius={90}
-                    innerRadius={40}
-                    paddingAngle={2}
-                    label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                    cy="90%"
+                    startAngle={180}
+                    endAngle={0}
+                    innerRadius={65}
+                    outerRadius={95}
+                    paddingAngle={4}
+                    cornerRadius={10}
+                    stroke="none"
                   >
                     {enrollmentsPieData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -302,13 +327,21 @@ const AdminDashboard = () => {
                     contentStyle={{
                       backgroundColor: "var(--admin-card)",
                       borderColor: "var(--admin-border)",
-                      borderRadius: "8px"
+                      borderRadius: "12px",
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)",
                     }}
-                    itemStyle={{ color: "var(--admin-text)" }}
-                    labelStyle={{ color: "var(--admin-text)" }}
+                    itemStyle={{ color: "var(--admin-text)", fontWeight: "500", fontSize: "13px" }}
+                    labelStyle={{ display: "none" }}
                   />
+                  <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
                 </PieChart>
               </ResponsiveContainer>
+              
+              {/* Center text for Half Donut */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+                <span className="text-2xl font-bold text-admin-text leading-none">{totals?.students ?? 0}</span>
+                <span className="text-[10px] text-admin-text/60 font-medium uppercase tracking-wider">Total</span>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -326,63 +359,65 @@ const AdminDashboard = () => {
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="space-y-4">
-              {(dashboardData.recentEnrollments || []).map((enrollment) => (
-                <div
-                  key={enrollment._id}
-                  className="flex items-center justify-between p-4 rounded-lg border border-admin-border bg-admin-card/40 hover:bg-admin-card/70 transition-all duration-200"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="relative">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-admin-primary to-[#147a87] overflow-hidden flex items-center justify-center shadow-lg">
-                        {enrollment.user?.profileImage ? (
-                          <img src={enrollment.user?.profileImage} alt={enrollment.user?.name || "User"} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-admin-text font-semibold text-lg">
-                            {enrollment.user?.name?.[0]?.toUpperCase() || "U"}
+            <div className="rounded-md border border-admin-border bg-admin-card/40">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-admin-border hover:bg-transparent">
+                    <TableHead className="text-admin-text/80">Student</TableHead>
+                    <TableHead className="text-admin-text/80">Class & Section</TableHead>
+                    <TableHead className="text-admin-text/80">Admission No.</TableHead>
+                    <TableHead className="text-admin-text/80 text-right">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {(dashboardData.recentEnrollments || []).length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={4} className="h-24 text-center text-admin-text/60">
+                        No recent enrollments found.
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    (dashboardData.recentEnrollments || []).map((enrollment) => (
+                      <TableRow key={enrollment._id} className="border-admin-border hover:bg-admin-card/70 transition-colors">
+                        <TableCell>
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-admin-primary to-[#147a87] overflow-hidden flex items-center justify-center shrink-0">
+                              {enrollment.profileImage ? (
+                                <img src={enrollment.profileImage} alt={enrollment.firstName} className="w-full h-full object-cover" />
+                              ) : (
+                                <span className="text-admin-text font-semibold text-xs">
+                                  {enrollment.firstName?.[0]?.toUpperCase() || "S"}
+                                </span>
+                              )}
+                            </div>
+                            <span className="font-medium text-admin-text">
+                              {enrollment.firstName} {enrollment.lastName || ""}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="text-admin-primary font-medium">
+                            Class {enrollment.className || "N/A"} - {enrollment.section || "N/A"}
                           </span>
-                        )}
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-admin-bg"></div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-admin-text">{enrollment.user?.name || "Unknown User"}</p>
-                      <p className="text-sm text-admin-primary font-medium">{enrollment.course?.title || "Unknown Course"}</p>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <CreditCard className="h-3 w-3 text-admin-text/40" />
-                        <p className="text-xs text-admin-text/60">
-                          {enrollment.payment?.paymentMethod || "N/A"} • ₹
-                          {Number(enrollment.payment?.amount || 0).toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="w-32 mb-2">
-                      <Progress value={enrollment.progress?.completionPercentage || 0} className="h-2 bg-admin-border" indicatorclassName="bg-admin-primary" />
-                    </div>
-                    <div className="flex items-center justify-end space-x-2">
-                      <span className="text-sm font-semibold text-admin-text/80">{enrollment.progress?.completionPercentage || 0}%</span>
-                      <Badge
-                        variant={
-                          (enrollment.progress?.completionPercentage || 0) > 75
-                            ? "success"
-                            : (enrollment.progress?.completionPercentage || 0) > 50
-                              ? "warning"
-                              : "secondary"
-                        }
-                        className="text-xs"
-                      >
-                        {(enrollment.progress?.completionPercentage || 0) > 75
-                          ? "Excellent"
-                          : (enrollment.progress?.completionPercentage || 0) > 50
-                            ? "Good"
-                            : "Started"}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                        </TableCell>
+                        <TableCell>
+                          <span className="text-sm text-admin-text/80">
+                            {enrollment.admissionNumber || "N/A"}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Badge
+                            variant={enrollment.status === "active" ? "success" : "secondary"}
+                            className="text-xs"
+                          >
+                            {enrollment.status === "active" ? "Active" : "Inactive"}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>

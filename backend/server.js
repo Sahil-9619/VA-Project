@@ -43,6 +43,8 @@ app.use(morgan("dev")); // Shows :method :url :status :response-time ms
 app.use(express.urlencoded({ extended: true }));
 
 
+
+
 // all routs in route folder
 app.use("/api", routes); // All routes prefixed with /api
 app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
@@ -103,6 +105,8 @@ app.get("/api/uploads/:filename", (req, res) => {
 app.get("/", (req, res) => {
   res.json("hii from lms backend");
 });
+
+
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

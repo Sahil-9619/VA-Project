@@ -60,7 +60,6 @@ const Navbar = () => {
         setLinks([
           ...mapped,
           { name: "Dashboard", path: "/user/dashboard", icon: <LayoutDashboard size={18} /> },
-          { name: "My Courses", path: "/user/mycourses", icon: <BookOpenText size={18} /> },
           { name: "Fee Payment", path: "/user/fee_payment", icon: <CreditCard size={18} /> },
           { name: "My Profile", path: "/user/myprofile", icon: <User size={18} /> },
         ]);
@@ -69,7 +68,6 @@ const Navbar = () => {
 
         setLinks([
           { name: "Dashboard", path: "/user/dashboard", icon: <LayoutDashboard size={18} /> },
-          { name: "My Courses", path: "/user/mycourses", icon: <User size={18} /> },
           { name: "Fee Payment", path: "/user/fee_payment", icon: <CreditCard size={18} /> },
           { name: "My Profile", path: "/user/myprofile", icon: <User size={18} /> },
         ]);
@@ -181,12 +179,6 @@ p-1.5 rounded-2xl">
 
         {/* RIGHT - Actions */}
         <div className="flex items-center gap-3">
-
-          {/* Bell */}
-          <button className="relative p-2 text-white hover:bg-white/10 rounded-full">
-            <Bell size={20} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-400 rounded-full"></span>
-          </button>
 
           {/* Profile */}
           <div className="relative" ref={profileRef}>

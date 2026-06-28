@@ -204,14 +204,19 @@ const getAdminDashboardData = async (req, res) => {
     const [
       totalUsers,
       totalClasses,
+      totalCourses,
       totalEnrollments,
       activeEnrollments,
+      recentEnrollments,
     ] = await Promise.all([
       User.countDocuments({}),
       Class.countDocuments({}),
       Course.countDocuments({ isPublished: true }),
       Enrollment.countDocuments({}),
       Enrollment.countDocuments({ status: "active" }),
+      Student.find({})
+        .sort({ createdAt: -1 })
+        .limit(5),
     ]);
 
     // ===============================
@@ -290,13 +295,9 @@ const getAdminDashboardData = async (req, res) => {
             }
           },
 
-          // ✅ ONLY monthly fees
+          // Calculate expected monthly fee from totalAssignedFee
           expected: {
-            $add: [
-              { $divide: ["$tuitionFee", 12] },
-              { $divide: ["$hostelFee", 12] },
-              { $divide: ["$transportFee", 12] }
-            ]
+            $divide: ["$totalAssignedFee", 12]
           },
 
           collected: "$payments.amount"
@@ -406,6 +407,7 @@ const getAdminDashboardData = async (req, res) => {
         instructors: totalInstructors,
         students: totalStudents,
         classes: totalClasses,
+        courses: totalCourses,
         enrollments: totalEnrollments,
         activeEnrollments,
       },
@@ -420,7 +422,7 @@ const getAdminDashboardData = async (req, res) => {
         monthlyFeeRevenue, // 
       },
       enrollmentsPerClass,
-
+      recentEnrollments,
     });
 
   } catch (error) {

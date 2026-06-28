@@ -4,7 +4,7 @@ import { cn } from "../lib/utils";
 import { Button } from "./ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { PhoneCall, Mail, ArrowLeft } from "lucide-react";
+import { PhoneCall, Mail, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -38,6 +38,7 @@ export function LoginForm({ className, ...props }) {
   } = useSelector((state) => state.auth);
 
   const [otp, setOtp] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const isLoading = status === "loading";
   useEffect(() => {
     if (error) {
@@ -154,7 +155,25 @@ export function LoginForm({ className, ...props }) {
                 Forgot your password?
               </Link>
             </div>
-            <Input id="password" name="password" type="password" required />
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
