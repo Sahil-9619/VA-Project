@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,8 +36,15 @@ export default function ForgotPasswordPage() {
       {/* Left Panel */}
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <div className="bg-primary h-11 w-14 text-primary-foreground flex items-center justify-center rounded-md overflow-hidden">
-            <img src="/images/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
+          <div className="bg-primary h-11 w-14 text-primary-foreground flex items-center justify-center rounded-md overflow-hidden relative">
+            <Image
+              src="/images/logo.png"
+              alt="Logo"
+              width={40}
+              height={32}
+              priority
+              className="h-8 w-auto object-contain"
+            />
           </div>
           <Link href="/" className="text-primary font-bold text-2xl">
             {brandName}
@@ -122,10 +130,13 @@ export default function ForgotPasswordPage() {
 
       {/* Right Panel */}
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg"
+        <Image
+          src="/images/pexels-photo-1438081.jpeg"
           alt="Background"
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          sizes="(max-width: 1024px) 0vw, 50vw"
+          className="object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>
